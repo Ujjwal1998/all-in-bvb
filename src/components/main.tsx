@@ -69,12 +69,12 @@ function Main() {
 
   return (
     <div className="flex flex-col bg-zinc-800">
-      <section className="mt-4">
+      <section className="">
         {/* <div className="rounded-2xl"> */}
         <img className=" rounded-xl" src={bvb} alt="BVB Poster" />
         {/* </div> */}
       </section>
-      <section className="mt-2">
+      <section className="mt-2 grow min-h-screen">
         {/* <div className="bg-zinc-400 w-3/5">Search Bar</div> */}
         <div className="bg-zinc-700 mt-1">
           <div className="flex flex-row justify-evenly">

@@ -3,7 +3,7 @@ import { SunIcon } from "@heroicons/react/20/solid";
 import { MoonIcon } from "@heroicons/react/20/solid";
 function Sidebar() {
   return (
-    <section className="hidden text-xl bg-zinc-800 text-white rounded-2xl m-4">
+    <section className="hidden text-xl bg-zinc-800 text-white rounded-2xl m-2">
       <div className="mt-8 mx-8 font-sofia-sans">ALL-IN-DORTMUND</div>
       <div className="flex flex-col">
         <a href="about:blank" className="mx-6 flex flex-row">
