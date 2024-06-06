@@ -1,5 +1,5 @@
-import Sidebar from "../components/sidebar";
-import Main from "../components/main";
+import Sidebar from "../components/sidebar.jsx";
+import Main from "../components/main.jsx";
 import ThirdBar from "../components/thirdbar.jsx";
 import Header from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
