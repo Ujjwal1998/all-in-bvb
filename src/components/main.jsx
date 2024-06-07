@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import bvb from "../assets/bvb4.jpg";
 import { getAllBVBMatchesData } from "../apis/openLigaData.js";
+import { getBVBMatchData } from "../apis/apiSportsData.js";
 import Score from "./score.jsx";
 
 function Main() {
@@ -9,11 +10,15 @@ function Main() {
   useEffect(() => {
     async function fetchData() {
       const matchData = await getAllBVBMatchesData();
+      const selectedBVBMatch = await getBVBMatchData(
+        matchData[0].matchDateTimeUTC
+      );
       setMatches(matchData);
-      setSelectedMatch(matchData[0]);
+      setSelectedMatch(selectedBVBMatch);
     }
     fetchData();
   }, []);
+  console.log(matches);
   function dateComparisonHandler(val) {
     const nowDate = new Date();
     const today =
@@ -32,7 +37,6 @@ function Main() {
     return dateButtonRenderer(today, matchDay, matchDate, val);
   }
   function dateButtonRenderer(today, matchDay, matchDate, val) {
-    console.log(selectedMatch.matchID, val.matchID);
     if (today == matchDay) {
       return <button>Today</button>;
     } else if (selectedMatch.matchID == val.matchID) {
@@ -41,6 +45,7 @@ function Main() {
           onClick={() => matchDateButtonHandler(val)}
           className="bg-zinc-700 text-yellow-400 border-yellow-400 focus:outline-none active:underline focus:underline active:outline-none focus:border-yellow-400"
           id={val.matchID}
+          key={val.matchID}
         >
           {matchDate.toLocaleString("en-us", {
             day: "numeric",
@@ -63,10 +68,10 @@ function Main() {
       );
     }
   }
-  function matchDateButtonHandler(val) {
-    setSelectedMatch(val);
+  async function matchDateButtonHandler(val) {
+    const selectedBVBMatch = await getBVBMatchData(val.matchDateTimeUTC);
+    setSelectedMatch(selectedBVBMatch);
   }
-
   return (
     <div className="flex flex-col bg-zinc-800">
       <section className="">

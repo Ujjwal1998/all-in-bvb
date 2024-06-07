@@ -1,4 +1,4 @@
-import { getBVBMatches } from "./openLigaAPI";
+import { getBVBMatches, getBVBMatch } from "./openLigaAPI";
 
 export const getAllBVBMatchesData = async () => {
   try {
@@ -16,19 +16,17 @@ export const getAllBVBMatchesData = async () => {
       return diffB - diffA;
     });
     return allMatches.slice(0, 4);
-    // const today: Date = new Date();
-    // const diffArr = [];
-    // response.data.forEach((val, idx, arr) => {
-    //   const today = new Date();
-    //   const x = new Date(val["matchDateTime"]);
-    //   diffArr.push(today - x);
-    //   //   console.log(x.getDate());
-    // });
-    // console.log(Math.min.apply(Math, diffArr));
-    // const closestMatch = diffArr.indexOf(Math.min.apply(Math, diffArr));
-    // console.log(response.data[closestMatch]);
   } catch (err) {
     console.error("Error in getting BVBBundesligaMatchesData");
     throw err;
   }
 };
+// export const getBVBMatchData = async (matchID) => {
+//   try {
+//     const selectedMatch = await getBVBMatch(matchID);
+//     return selectedMatch;
+//   } catch (err) {
+//     console.error("Error in getting getBVBMatchData");
+//     throw err;
+//   }
+// };
