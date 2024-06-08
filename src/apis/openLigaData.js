@@ -6,13 +6,11 @@ export const getAllBVBMatchesData = async () => {
     const uclMatches = await getBVBMatches("champion1");
     const pokalMatches = await getBVBMatches("dfb");
     const allMatches = bligaMatches.concat(uclMatches, pokalMatches);
-    // console.log(allMatches);
     allMatches.sort((a, b) => {
       const dateA = new Date(a.matchDateTime);
       const dateB = new Date(b.matchDateTime);
       const diffA = dateA - new Date().getTime();
       const diffB = dateB - new Date().getTime();
-      //   console.log(diffB - diffA, b);
       return diffB - diffA;
     });
     return allMatches.slice(0, 4);

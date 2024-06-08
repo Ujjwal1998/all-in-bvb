@@ -1,16 +1,26 @@
 import Scorer from "./scorer.jsx";
+import Accordion from "./accordion.jsx";
+
 function Score({ val }) {
-  const calcScorerTeam = (val) => {
-    let isBVBHomeTeam = Boolean(val.team1.teamId == 7);
-    return val.goals.map((goal, idx) => {
-      // console.log("scorer", goal);
-      return <Scorer goal={goal} isBVBHomeTeam={isBVBHomeTeam} />;
-    });
-  };
+  const homeTeamID = val.teams.home.id;
+  const isBVBHome = Boolean(homeTeamID == 165);
+  const homeGoals = val.events.filter((evt, idx) => {
+    return evt.type == "Goal" && homeTeamID == evt.team.id;
+  });
+  const awayGoals = val.events.filter((evt, idx) => {
+    return evt.type == "Goal" && homeTeamID != evt.team.id;
+  });
+  const notGoals = val.events.filter((evt, idx) => {
+    return evt.type != "Goal";
+  });
+  console.log(homeGoals, awayGoals, "GOALS");
   return (
     <>
-      <div className="mt-4 text-white bg-black text-sm p-2">
-        {val.league.name} - {val.league.round}
+      <div className="mt-4 text-white bg-black text-sm p-2 flex flex-row">
+        <img src={val.league.logo} className="size-5 bg-white"></img>
+        <div className="mx-2">
+          {val.league.name} - {val.league.round}
+        </div>
       </div>
       <div className="bg-zinc-800 text-white">
         <div className="grid grid-cols-3 p-2">
@@ -43,6 +53,54 @@ function Score({ val }) {
           </div>
         </div>
       </div>
+      <div id="events" className="grid grid-cols-3">
+        <div id="home-goals" className="text-white text-xs">
+          {homeGoals.map((goal, idx) => {
+            if (isBVBHome) {
+              return (
+                <Scorer
+                  goal={goal}
+                  idx={idx}
+                  classNames="text-yellow-400 text-xs"
+                />
+              );
+            } else {
+              return (
+                <Scorer
+                  goal={goal}
+                  idx={idx}
+                  classNames="text-white-400 text-xs"
+                />
+              );
+            }
+          })}
+        </div>
+        <div id="assists">
+          {notGoals.map((ng, idx) => (
+            <div key={idx} className="text-white text-xs">
+              {ng.time.elapsed}' {ng.detail}
+            </div>
+          ))}
+        </div>
+        <div id="away-goals">
+          {awayGoals.map((goal, idx) => {
+            if (!isBVBHome) {
+              return (
+                <Scorer
+                  goal={goal}
+                  idx={idx}
+                  classNames="text-yellow-400 text-xs"
+                />
+              );
+            } else {
+              return (
+                <Scorer goal={goal} idx={idx} classNames="text-white text-xs" />
+              );
+            }
+          })}
+        </div>
+      </div>
+      <Accordion title="Vote your MOTM!" children="Chjild" />
       {/* <div id="scorer">{calcScorerTeam(val)}</div> */}
     </>
   );
