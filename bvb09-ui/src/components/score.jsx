@@ -2,6 +2,7 @@ import Scorer from "./scorer.jsx";
 import Accordion from "./accordion.jsx";
 
 function Score({ val }) {
+  console.log(val);
   const homeTeamID = val.teams.home.id;
   const isBVBHome = Boolean(homeTeamID == 165);
   const homeGoals = val.events.filter((evt, idx) => {
@@ -13,7 +14,6 @@ function Score({ val }) {
   const notGoals = val.events.filter((evt, idx) => {
     return evt.type != "Goal";
   });
-  console.log(homeGoals, awayGoals, "GOALS");
   return (
     <>
       <div className="mt-4 text-white bg-black text-sm p-2 flex flex-row">
@@ -100,7 +100,10 @@ function Score({ val }) {
           })}
         </div>
       </div>
-      <Accordion title="Vote your MOTM!" children="Chjild" />
+      <Accordion
+        title="Vote your MOTM!"
+        children={val.lineups.filter((lineup) => lineup.team.id == 165)}
+      />
       {/* <div id="scorer">{calcScorerTeam(val)}</div> */}
     </>
   );

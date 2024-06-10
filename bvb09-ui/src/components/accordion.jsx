@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
 const Accordion = ({ title, children }) => {
+  const startingEleven = children[0].startXI;
+  console.log(startingEleven);
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -27,7 +30,18 @@ const Accordion = ({ title, children }) => {
           />
         </svg>
       </div>
-      {isOpen && <div className="p-4">{children}</div>}
+      {isOpen && (
+        <div className="p-4">
+          {startingEleven.map((player) => {
+            console.log(player);
+            return (
+              <div className="text-white" key={player.player.name}>
+                {player.player.name}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
