@@ -1,8 +1,8 @@
 import Scorer from "./scorer.jsx";
 import Accordion from "./accordion.jsx";
+import { useEffect, useState } from "react";
 
-function Score({ val }) {
-  console.log(val);
+function Score({ val, hasVoted, setHasVoted, voteData }) {
   const homeTeamID = val.teams.home.id;
   const isBVBHome = Boolean(homeTeamID == 165);
   const homeGoals = val.events.filter((evt, idx) => {
@@ -14,6 +14,7 @@ function Score({ val }) {
   const notGoals = val.events.filter((evt, idx) => {
     return evt.type != "Goal";
   });
+
   return (
     <>
       <div className="mt-4 text-white bg-black text-sm p-2 flex flex-row">
@@ -60,7 +61,7 @@ function Score({ val }) {
               return (
                 <Scorer
                   goal={goal}
-                  idx={idx}
+                  key={idx}
                   classNames="text-yellow-400 text-xs"
                 />
               );
@@ -68,7 +69,7 @@ function Score({ val }) {
               return (
                 <Scorer
                   goal={goal}
-                  idx={idx}
+                  key={idx}
                   classNames="text-white-400 text-xs"
                 />
               );
@@ -88,13 +89,13 @@ function Score({ val }) {
               return (
                 <Scorer
                   goal={goal}
-                  idx={idx}
+                  key={idx}
                   classNames="text-yellow-400 text-xs"
                 />
               );
             } else {
               return (
-                <Scorer goal={goal} idx={idx} classNames="text-white text-xs" />
+                <Scorer goal={goal} key={idx} classNames="text-white text-xs" />
               );
             }
           })}
@@ -102,8 +103,13 @@ function Score({ val }) {
       </div>
       <Accordion
         title="Vote your MOTM!"
-        children={val.lineups.filter((lineup) => lineup.team.id == 165)}
-      />
+        fixture={val.fixture}
+        hasVoted={hasVoted}
+        setHasVoted={setHasVoted}
+        voteData={voteData}
+      >
+        {val.lineups.filter((lineup) => lineup.team.id == 165)}
+      </Accordion>
       {/* <div id="scorer">{calcScorerTeam(val)}</div> */}
     </>
   );

@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import bvb from "../assets/bvb4.jpg";
 import { getAllBVBMatchesData } from "../apis/openLigaData.js";
-import getAndCreateBVBMatchByDate from "../apis/dbAPI.js";
+import { getAndCreateBVBMatchByDate } from "../apis/dbAPI.js";
+import { getVotesByFixtureID } from "../apis/dbAPI.js";
 import Score from "./score.jsx";
 
 function Main() {
   const [matches, setMatches] = useState();
   const [selectedMatch, setSelectedMatch] = useState();
+  const [hasVoted, setHasVoted] = useState(false);
+  const [voteData, setVoteData] = useState("");
+  // effect to render the date buttons
   useEffect(() => {
     async function fetchData() {
       const matchData = await getAllBVBMatchesData();
@@ -18,6 +22,15 @@ function Main() {
     }
     fetchData();
   }, []);
+  // effect to getVotesByFixtureID
+  useEffect(() => {
+    console.log(hasVoted, "changed");
+    async function fetchData() {
+      const resp = await getVotesByFixtureID(selectedMatch.fixture.id);
+      setVoteData(resp.data);
+    }
+    hasVoted && fetchData();
+  }, [hasVoted]);
   function dateComparisonHandler(val) {
     const nowDate = new Date();
     const today =
@@ -58,6 +71,7 @@ function Main() {
           onClick={() => matchDateButtonHandler(val)}
           className="bg-zinc-700 text-white hover:text-yellow-400 hover:border-yellow-400 hover:border-2 active:border-2 active:border-yellow-400 focus:border-2 focus:border-yellow-400 focus:outline-none active:underline focus:underline active:text-yellow-400 focus:text-yellow-400"
           id={val.matchID}
+          key={val.matchID}
         >
           {matchDate.toLocaleString("en-us", {
             day: "numeric",
@@ -72,6 +86,7 @@ function Main() {
       val.matchDateTimeUTC.split("T")[0]
     );
     setSelectedMatch(selectedBVBMatch);
+    setHasVoted(false);
   }
   return (
     <div className="flex flex-col bg-zinc-800">
@@ -93,7 +108,16 @@ function Main() {
             )}
           </div>
         </div>
-        {selectedMatch ? <Score val={selectedMatch} /> : <>LOADING</>}
+        {selectedMatch ? (
+          <Score
+            val={selectedMatch}
+            hasVoted={hasVoted}
+            setHasVoted={setHasVoted}
+            voteData={voteData}
+          />
+        ) : (
+          <>LOADING</>
+        )}
       </section>
     </div>
   );

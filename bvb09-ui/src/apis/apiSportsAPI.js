@@ -41,3 +41,13 @@ export const getBVBFixtureID = async (
     throw err;
   }
 };
+
+export const getBVBSquad = async () => {
+  try {
+    const response = await ApiSportsClient.get(`/players/squads?team=165`);
+    return response.data;
+  } catch (err) {
+    console.error("Error in getting getBVBFixtureID");
+    throw err;
+  }
+};

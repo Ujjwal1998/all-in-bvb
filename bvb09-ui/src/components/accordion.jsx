@@ -1,11 +1,37 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-const Accordion = ({ title, children }) => {
+import VotePlayer from "./voteplayer.jsx";
+
+const Accordion = ({
+  title,
+  children,
+  fixture,
+  hasVoted,
+  setHasVoted,
+  voteData,
+}) => {
   const startingEleven = children[0].startXI;
-  console.log(startingEleven);
-
   const [isOpen, setIsOpen] = useState(false);
-
+  const voteClickHandler = async (playerID) => {
+    const payload = {
+      player: {
+        id: playerID,
+      },
+      fixture: {
+        id: fixture.id,
+      },
+    };
+    const voteRequest = await axios.post(
+      "http://localhost:3000/api/players/vote",
+      payload
+    );
+    if (voteRequest) {
+      setHasVoted(true);
+      return voteRequest;
+    }
+  };
+  console.log(voteData);
   return (
     <div className=" bg-zinc-900">
       <div
@@ -30,18 +56,15 @@ const Accordion = ({ title, children }) => {
           />
         </svg>
       </div>
-      {isOpen && (
-        <div className="p-4">
-          {startingEleven.map((player) => {
-            console.log(player);
-            return (
-              <div className="text-white" key={player.player.name}>
-                {player.player.name}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      {isOpen &&
+        (hasVoted ? (
+          <div className="text-white">{[voteData]}</div>
+        ) : (
+          <VotePlayer
+            startingEleven={startingEleven}
+            voteClickHandler={voteClickHandler}
+          ></VotePlayer>
+        ))}
     </div>
   );
 };
