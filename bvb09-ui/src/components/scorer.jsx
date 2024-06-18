@@ -1,7 +1,8 @@
 function Scorer({ goal, idx, classNames }) {
-  return goal.assist ? (
+  console.log(goal.assist);
+  return goal.assist.id ? (
     <div key={idx} className={classNames}>
-      {goal.time.elapsed}' {goal.player.name} - {goal.assist.name}
+      {goal.time.elapsed}' {goal.player.name} {`(${goal.assist.name})`}
     </div>
   ) : (
     <div key={idx} className={classNames}>

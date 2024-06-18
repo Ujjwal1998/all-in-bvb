@@ -3,18 +3,20 @@ import { SunIcon } from "@heroicons/react/20/solid";
 import { MoonIcon } from "@heroicons/react/20/solid";
 function Sidebar() {
   return (
-    <section className="hidden text-xl bg-zinc-800 text-white rounded-2xl m-2">
-      <div className="mt-8 mx-8 font-sofia-sans">ALL-IN-DORTMUND</div>
+    <section className="hidden text-xl bg-zinc-800 text-white rounded-2xl m-2 sm:inline sm:w-fit">
+      <div className="mt-8 mx-8 font-chakra text-4xl text-yellow-400 bg-zinc-800">
+        ALL-IN-DORTMUND
+      </div>
       <div className="flex flex-col">
         <a href="about:blank" className="mx-6 flex flex-row">
           <HomeIcon className="size-6" />
           Home
         </a>
         <a href="about:blank" className="mx-6">
-          link 2
+          Fan's Statisitics
         </a>
         <a href="about:blank" className="mx-6">
-          link 3
+          BVB Schedule
         </a>
         <a href="about:blank" className="mx-6">
           link 4

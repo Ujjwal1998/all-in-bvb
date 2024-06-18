@@ -6,13 +6,13 @@ import Footer from "../components/footer.jsx";
 function Home() {
   return (
     <>
-      <div className="flex flex-col min-h-screen sm:flex-row">
+      <div className="flex flex-col min-h-screen bg-zinc-900 sm:flex-row sm:w-screen">
         <Header />
         <Sidebar />
         <Main />
         <ThirdBar />
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }

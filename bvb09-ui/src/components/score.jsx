@@ -14,7 +14,7 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
   const notGoals = val.events.filter((evt, idx) => {
     return evt.type != "Goal";
   });
-
+  console.log(notGoals);
   return (
     <>
       <div className="mt-4 text-white bg-black text-sm p-2 flex flex-row">
@@ -23,23 +23,23 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
           {val.league.name} - {val.league.round}
         </div>
       </div>
-      <div className="bg-zinc-800 text-white">
+      <div className="bg-zinc-800 text-white p-4">
         <div className="grid grid-cols-3 p-2">
           <div className="grid grid-rows-2" id="team-1">
             <img
               src={val.teams.home.logo}
               className="size-8 place-self-center"
             ></img>
-            <div className="place-self-center text-center text-sm">
+            <div className="place-self-center text-center text-sm sm:text-base">
               {val.teams.home.name}
             </div>
           </div>
           <div id="score" className="grid grid-cols-3">
-            <div className="place-self-center text-lg" id="time">
+            <div className="place-self-center text-lg sm:text-3xl" id="time">
               {val.goals.home}
             </div>
-            <div className="place-self-center text-lg">-</div>
-            <div className="place-self-center text-lg" id="time">
+            <div className="place-self-center text-lg sm:text-3xl">-</div>
+            <div className="place-self-center text-lg sm:text-3xl" id="time">
               {val.goals.away}
             </div>
           </div>
@@ -48,21 +48,21 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
               src={val.teams.away.logo}
               className="size-8 place-self-center"
             ></img>
-            <div className="place-self-center text-center text-sm">
+            <div className="place-self-center text-center text-sm sm:text-base">
               {val.teams.away.name}
             </div>
           </div>
         </div>
       </div>
-      <div id="events" className="grid grid-cols-3">
-        <div id="home-goals" className="text-white text-xs">
+      <div id="events" className="grid grid-cols-2">
+        <div id="home-goals" className="text-white text-xs p-2">
           {homeGoals.map((goal, idx) => {
             if (isBVBHome) {
               return (
                 <Scorer
                   goal={goal}
                   key={idx}
-                  classNames="text-yellow-400 text-xs"
+                  classNames="text-yellow-400 text-xs sm:text-sm sm:text-left"
                 />
               );
             } else {
@@ -70,19 +70,19 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
                 <Scorer
                   goal={goal}
                   key={idx}
-                  classNames="text-white-400 text-xs"
+                  classNames="text-white-400 text-xs sm:text-sm sm:text-left"
                 />
               );
             }
           })}
         </div>
-        <div id="assists">
+        {/* <div id="assists">
           {notGoals.map((ng, idx) => (
             <div key={idx} className="text-white text-xs">
-              {ng.time.elapsed}' {ng.detail}
+              {ng.time.elapsed}' {ng.detail} - {ng.player.name}
             </div>
           ))}
-        </div>
+        </div> */}
         <div id="away-goals">
           {awayGoals.map((goal, idx) => {
             if (!isBVBHome) {
@@ -90,19 +90,24 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
                 <Scorer
                   goal={goal}
                   key={idx}
-                  classNames="text-yellow-400 text-xs"
+                  classNames="text-yellow-400 text-xs sm:text-sm sm:text-left"
                 />
               );
             } else {
               return (
-                <Scorer goal={goal} key={idx} classNames="text-white text-xs" />
+                <Scorer
+                  goal={goal}
+                  key={idx}
+                  classNames="text-white text-xs sm:text-sm sm:text-left"
+                />
               );
             }
           })}
         </div>
       </div>
+      <Accordion type="data">{notGoals}</Accordion>
       <Accordion
-        title="Vote your MOTM!"
+        type="vote"
         fixture={val.fixture}
         hasVoted={hasVoted}
         setHasVoted={setHasVoted}

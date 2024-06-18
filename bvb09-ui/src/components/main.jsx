@@ -89,7 +89,7 @@ function Main() {
     setHasVoted(false);
   }
   return (
-    <div className="flex flex-col bg-zinc-800">
+    <div className="flex flex-col bg-zinc-800 sm:w-1/3">
       <section className="">
         {/* <div className="rounded-2xl"> */}
         <img className=" rounded-xl" src={bvb} alt="BVB Poster" />

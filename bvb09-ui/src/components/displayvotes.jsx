@@ -1,7 +1,9 @@
-// import Pie
+import PieChartWithCenterLabel from "./piechartwlabel";
 
-// function DisplayVotes() {
-//   return <></>;
-// }
+function DisplayVotes({ voteData }) {
+  return (
+    <PieChartWithCenterLabel voteData={voteData}></PieChartWithCenterLabel>
+  );
+}
 
-// export default DisplayVotes;
+export default DisplayVotes;
