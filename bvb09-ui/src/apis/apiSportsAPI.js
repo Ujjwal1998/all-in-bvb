@@ -17,7 +17,7 @@ export const getBVBMatchDetail = async (apiSportsFixtureID) => {
     );
     return response.data;
   } catch (err) {
-    console.error("Error in getting getBVBLineup");
+    console.error("Error in getting getBVBMatchDetail");
     throw err;
   }
 };
@@ -29,11 +29,8 @@ export const getBVBFixtureID = async (
   fixtureDate
 ) => {
   try {
-    // const response = await ApiSportsClient.get(
-    //   `/fixtures?league=${apiSportsLeagueID}&team=${apiSportsTeamID}&season=${seasonYear}&date=${fixtureDate}`
-    // );
     const response = await ApiSportsClient.get(
-      `/fixtures?team=${apiSportsTeamID}&date=${fixtureDate}&season=2023`
+      `/fixtures?team=${apiSportsTeamID}&date=${fixtureDate}&season=${SEASON_YEAR}`
     );
     return response.data;
   } catch (err) {
@@ -44,7 +41,9 @@ export const getBVBFixtureID = async (
 
 export const getBVBSquad = async () => {
   try {
-    const response = await ApiSportsClient.get(`/players/squads?team=165`);
+    const response = await ApiSportsClient.get(
+      `/players/squads?team=${import.meta.env.VITE_TEAM_ID}`
+    );
     return response.data;
   } catch (err) {
     console.error("Error in getting getBVBFixtureID");

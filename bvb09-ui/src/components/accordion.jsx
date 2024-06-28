@@ -4,6 +4,7 @@ const Accordion = ({
   type,
   children,
   fixture,
+  subs,
   hasVoted,
   setHasVoted,
   voteData,
@@ -15,6 +16,7 @@ const Accordion = ({
           <VoteAccordion
             children={children}
             fixture={fixture}
+            subs={subs}
             hasVoted={hasVoted}
             setHasVoted={setHasVoted}
             voteData={voteData}

@@ -12,8 +12,8 @@ const playerSchema = new Schema({
   fixture: [
     {
       id: Number,
-      votes: Number,
-      isMOTM: Boolean,
+      votes: { type: Number, default: 0 },
+      isMOTM: { type: Boolean, default: false },
     },
   ],
 });

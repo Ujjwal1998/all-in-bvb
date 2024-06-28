@@ -4,7 +4,15 @@ import axios from "axios";
 import VotePlayer from "./voteplayer.jsx";
 import DisplayVotes from "./displayvotes.jsx";
 
-function VoteAccordion({ children, fixture, hasVoted, setHasVoted, voteData }) {
+function VoteAccordion({
+  children,
+  fixture,
+  subs,
+  hasVoted,
+  setHasVoted,
+  voteData,
+}) {
+  console.log(children, "CHILD");
   const startingEleven = children[0].startXI;
   const [isOpen, setIsOpen] = useState(false);
   const voteClickHandler = async (playerID) => {
@@ -55,6 +63,7 @@ function VoteAccordion({ children, fixture, hasVoted, setHasVoted, voteData }) {
         ) : (
           <VotePlayer
             startingEleven={startingEleven}
+            subs={subs}
             voteClickHandler={voteClickHandler}
           ></VotePlayer>
         ))}

@@ -63,20 +63,45 @@ router.get("/votes/:id", async (req, res) => {
     const response = await Player.find({
       "fixture.id": fixtureID,
     });
+    console.log(fixtureID);
     const data = {};
     response.forEach(({ player: { id, name }, fixture }) => {
       const selectedFixture = fixture.filter(
         (fixture) => fixture.id == fixtureID
       );
+      console.log(selectedFixture);
       data[name] = selectedFixture[0].votes;
     });
     if (Object.keys(data).length > 0) {
+      console.log(data);
       res.status(200).json(data);
     } else {
       res.status(404).json(data);
     }
   } catch (error) {
+    console.log("error in getting votes", error);
     res.status(500).json({ error });
   }
 });
+
+// router.get("/votes", async (req, res) => {
+//   try {
+//     let data = {}
+//     const response = await Player.find()
+//     response.forEach(({ player: { id, name }, fixture }) => {
+//       const selectedFixture = fixture.filter(
+//         (fixture) => fixture.id == fixtureID
+//       );
+//       data[name] = selectedFixture[0].votes;
+//     });
+//     });
+//     if (Object.keys(data).length > 0) {
+//       res.status(200).json(data);
+//     } else {
+//       res.status(404).json(data);
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error });
+//   }
+// });
 module.exports = router;

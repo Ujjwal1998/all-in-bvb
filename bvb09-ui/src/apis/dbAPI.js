@@ -1,7 +1,24 @@
 import axios from "axios";
 import { getBVBMatchDetail, getBVBFixtureID } from "./apiSportsAPI.js";
 
-export const getAndCreateBVBMatchByDate = async (date) => {
+const getAPIFixtureID = async (teamID, fixtureDate) => {
+  const fixtureData = await axios.get(
+    `${
+      import.meta.env.FOOTBALL_API_BASE_URL
+    }/fixtures?team=${teamID}&date=${fixtureDate}&season=${
+      import.meta.env.SEASON_YEAR
+    }`,
+    {
+      headers: {
+        "x-rapidapi-host": "v3.football.api-sports.io",
+        "x-rapidapi-key": "6ec8aa28f3356b25368f06f62d469ec0",
+      },
+    }
+  );
+  return fixtureData.id;
+};
+
+export const getOrCreateBVBMatchByDate = async (date) => {
   try {
     const response = await axios.get(
       `http://localhost:3000/api/fixtures/${date}`
@@ -9,27 +26,8 @@ export const getAndCreateBVBMatchByDate = async (date) => {
     if (response.status == 200) {
       return response.data;
     }
-    // if (response.status == 404) {
-    //   const fixtureResponse = await getBVBFixtureID(165, date);
-    //   const fixtureID = fixtureResponse.response[0].fixture.id;
-    //   const fixtureDetailResponse = await getBVBMatchDetail(fixtureID);
-    //   await axios.post(
-    //     "http://localhost:3000/api/fixtures",
-    //     fixtureDetailResponse
-    //   );
-    //   console.log("Created entry");
-    // }
-  } catch {
-    const fixtureResponse = await getBVBFixtureID(165, date);
-    const fixtureID = fixtureResponse.response[0].fixture.id;
-    const fixtureDetailResponse = await getBVBMatchDetail(fixtureID);
-    console.log(fixtureDetailResponse.response[0]);
-    await axios.post(
-      "http://localhost:3000/api/fixtures",
-      fixtureDetailResponse.response[0]
-    );
-    console.log("Created entry");
-    return fixtureDetailResponse.response[0];
+  } catch (err) {
+    console.log(err);
   }
 };
 

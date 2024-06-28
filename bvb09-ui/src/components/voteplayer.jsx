@@ -1,16 +1,18 @@
-function VotePlayer({ startingEleven, voteClickHandler }) {
+import VotePanel from "./votepanel";
+
+function VotePlayer({ startingEleven, subs, voteClickHandler }) {
   return (
-    <div className="p-4">
+    <div className="">
       {startingEleven.map(({ player: { id, name } }) => (
-        <div className="text-white flex flex-row justify-between" key={id}>
-          <span>{name}</span>
-          <button
-            className="bg-zinc-800 text-yellow-400 border-2 border-yellow-400 my-2 text-xs"
-            onClick={() => voteClickHandler(id)}
-          >
-            Vote!
-          </button>
-        </div>
+        <VotePanel id={id} name={name} voteClickHandler={voteClickHandler} />
+      ))}
+      {subs.map(({ id, name }) => (
+        <VotePanel
+          id={id}
+          name={name}
+          voteClickHandler={voteClickHandler}
+          isSub={true}
+        />
       ))}
     </div>
   );

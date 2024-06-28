@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import bvb from "../assets/bvb4.jpg";
 import { getAllBVBMatchesData } from "../apis/openLigaData.js";
-import { getAndCreateBVBMatchByDate } from "../apis/dbAPI.js";
+import { getOrCreateBVBMatchByDate } from "../apis/dbAPI.js";
 import { getVotesByFixtureID } from "../apis/dbAPI.js";
 import Score from "./score.jsx";
 
@@ -14,7 +14,7 @@ function Main() {
   useEffect(() => {
     async function fetchData() {
       const matchData = await getAllBVBMatchesData();
-      const selectedBVBMatch = await getAndCreateBVBMatchByDate(
+      const selectedBVBMatch = await getOrCreateBVBMatchByDate(
         matchData[0].matchDateTimeUTC.split("T")[0]
       );
       setMatches(matchData);
@@ -27,7 +27,15 @@ function Main() {
     console.log(hasVoted, "changed");
     async function fetchData() {
       const resp = await getVotesByFixtureID(selectedMatch.fixture.id);
-      setVoteData(resp.data);
+      let voteDataArr = [];
+      for (const [key, value] of Object.entries(resp.data)) {
+        console.log(key, value, "vda");
+        if (value > 0) {
+          voteDataArr.push({ id: key, label: key, value: value });
+        }
+      }
+      console.log(voteDataArr, "vda");
+      setVoteData(voteDataArr);
     }
     hasVoted && fetchData();
   }, [hasVoted]);
@@ -82,14 +90,16 @@ function Main() {
     }
   }
   async function matchDateButtonHandler(val) {
-    const selectedBVBMatch = await getAndCreateBVBMatchByDate(
+    const selectedBVBMatch = await getOrCreateBVBMatchByDate(
       val.matchDateTimeUTC.split("T")[0]
     );
+    console.log(selectedBVBMatch, "changed inr react");
     setSelectedMatch(selectedBVBMatch);
     setHasVoted(false);
   }
+  console.log(matches, "matechesss");
   return (
-    <div className="flex flex-col bg-zinc-800 sm:w-1/3">
+    <div className="flex flex-col bg-zinc-800 m-4 sm:w-1/3">
       <section className="">
         {/* <div className="rounded-2xl"> */}
         <img className=" rounded-xl" src={bvb} alt="BVB Poster" />

@@ -1,9 +1,7 @@
-import PieChartWithCenterLabel from "./piechartwlabel";
+import MyResponsivePie from "./responsivepie";
 
 function DisplayVotes({ voteData }) {
-  return (
-    <PieChartWithCenterLabel voteData={voteData}></PieChartWithCenterLabel>
-  );
+  return <MyResponsivePie data={voteData}></MyResponsivePie>;
 }
 
 export default DisplayVotes;

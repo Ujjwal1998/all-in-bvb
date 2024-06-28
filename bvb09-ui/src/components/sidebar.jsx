@@ -1,23 +1,30 @@
 import { HomeIcon } from "@heroicons/react/20/solid";
 import { SunIcon } from "@heroicons/react/20/solid";
 import { MoonIcon } from "@heroicons/react/20/solid";
+import { PresentationChartLineIcon } from "@heroicons/react/20/solid";
+import { CalendarDaysIcon } from "@heroicons/react/20/solid";
+
+import { Link } from "react-router-dom";
+
 function Sidebar() {
   return (
     <section className="hidden text-xl bg-zinc-800 text-white rounded-2xl m-2 sm:inline sm:w-fit">
       <div className="mt-8 mx-8 font-chakra text-4xl text-yellow-400 bg-zinc-800">
         ALL-IN-DORTMUND
       </div>
-      <div className="flex flex-col">
-        <a href="about:blank" className="mx-6 flex flex-row">
-          <HomeIcon className="size-6" />
-          Home
-        </a>
-        <a href="about:blank" className="mx-6">
-          Fan's Statisitics
-        </a>
-        <a href="about:blank" className="mx-6">
-          BVB Schedule
-        </a>
+      <div className="flex flex-col my-10 text-2xl">
+        <Link to="/" className="flex mx-6">
+          <HomeIcon className="w-6" />
+          <span className="mx-2">Home</span>
+        </Link>
+        <Link to="/stats" className="flex mx-6">
+          <PresentationChartLineIcon className="w-6" />
+          <span className="mx-2">Statistics</span>
+        </Link>
+        <Link to="/stats" className="flex mx-6">
+          <CalendarDaysIcon className="w-6" />
+          <span className="mx-2">Schedule</span>
+        </Link>
         <a href="about:blank" className="mx-6">
           link 4
         </a>

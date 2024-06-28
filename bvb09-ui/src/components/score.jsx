@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 
 function Score({ val, hasVoted, setHasVoted, voteData }) {
   const homeTeamID = val.teams.home.id;
-  const isBVBHome = Boolean(homeTeamID == 165);
+  const isBVBHome = Boolean(
+    homeTeamID == import.meta.env.VITE_APIFOOTBALL_TEAM_ID
+  );
   const homeGoals = val.events.filter((evt, idx) => {
     return evt.type == "Goal" && homeTeamID == evt.team.id;
   });
@@ -14,7 +16,12 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
   const notGoals = val.events.filter((evt, idx) => {
     return evt.type != "Goal";
   });
-  console.log(notGoals);
+  const subDetails = val.events.filter(
+    (evt) =>
+      evt.type == "subst" &&
+      evt.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID
+  );
+  const subs = subDetails.map((sub) => sub.assist);
   return (
     <>
       <div className="mt-4 text-white bg-black text-sm p-2 flex flex-row">
@@ -109,11 +116,14 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
       <Accordion
         type="vote"
         fixture={val.fixture}
+        subs={subs}
         hasVoted={hasVoted}
         setHasVoted={setHasVoted}
         voteData={voteData}
       >
-        {val.lineups.filter((lineup) => lineup.team.id == 165)}
+        {val.lineups.filter((lineup) => {
+          return lineup.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID;
+        })}
       </Accordion>
       {/* <div id="scorer">{calcScorerTeam(val)}</div> */}
     </>

@@ -1,11 +1,19 @@
-import { getBVBMatches, getBVBMatch } from "./openLigaAPI";
+import { getLeagueMatches, getBVBMatch } from "./openLigaAPI.js";
+
+const LEAGUES_TO_SEARCH = ["em"];
 
 export const getAllBVBMatchesData = async () => {
   try {
-    const bligaMatches = await getBVBMatches("bl1");
-    const uclMatches = await getBVBMatches("champion1");
-    const pokalMatches = await getBVBMatches("dfb");
-    const allMatches = bligaMatches.concat(uclMatches, pokalMatches);
+    let allMatches = [];
+    for (const league of LEAGUES_TO_SEARCH) {
+      const leagueMatches = await getLeagueMatches(league);
+      const finishedLeagueMatches = leagueMatches.filter(
+        (match) => match.matchIsFinished === true
+      );
+      allMatches.push(...finishedLeagueMatches);
+    }
+    console.log(allMatches, "LM");
+
     allMatches.sort((a, b) => {
       const dateA = new Date(a.matchDateTime);
       const dateB = new Date(b.matchDateTime);
@@ -19,12 +27,3 @@ export const getAllBVBMatchesData = async () => {
     throw err;
   }
 };
-// export const getBVBMatchData = async (matchID) => {
-//   try {
-//     const selectedMatch = await getBVBMatch(matchID);
-//     return selectedMatch;
-//   } catch (err) {
-//     console.error("Error in getting getBVBMatchData");
-//     throw err;
-//   }
-// };
