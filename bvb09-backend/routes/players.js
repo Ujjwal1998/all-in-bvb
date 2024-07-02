@@ -1,5 +1,7 @@
 const express = require("express");
+const axios = require("axios");
 const Player = require("../db/playerSchema");
+const Fixture = require("../db/fixtureSchema");
 const router = express.Router();
 
 // expectation is that player is created, if fixture is there vote is incremented and if fixture is not there vote is set to 1
@@ -7,12 +9,14 @@ router.post("/vote", async (req, res) => {
   try {
     const playerID = parseInt(req.body.player.id);
     const fixtureID = parseInt(req.body.fixture.id);
+    const fixtureDate = req.body.fixture.date;
+    const fixtureLeague = req.body.fixture.league;
     const updatedPlayer = await Player.findOneAndUpdate(
       {
         "player.id": playerID,
-        "fixture.id": fixtureID,
+        "fixtures.id": fixtureID,
       },
-      { $inc: { "fixture.$.votes": 1 } },
+      { $inc: { "fixtures.$.votes": 1 } },
       { returnDocument: "after" }
     );
     if (updatedPlayer) {
@@ -24,8 +28,10 @@ router.post("/vote", async (req, res) => {
         },
         {
           $push: {
-            fixture: {
+            fixtures: {
               id: fixtureID,
+              date: fixtureDate,
+              league: fixtureLeague,
               votes: 1,
               isMOTM: false,
             },
@@ -41,6 +47,7 @@ router.post("/vote", async (req, res) => {
   }
 });
 
+// create new player
 router.post("/:id", async (req, res) => {
   try {
     const playerID = parseInt(req.params.id);
@@ -55,29 +62,47 @@ router.post("/:id", async (req, res) => {
   }
 });
 
-// check if fixture exists
-// increment vote by 1
-router.get("/votes/:id", async (req, res) => {
+// get player model
+// returns the fixtures in a sorted manner based on the time
+router.get("/:id/votes", async (req, res) => {
   try {
-    const fixtureID = parseInt(req.params.id);
-    const response = await Player.find({
-      "fixture.id": fixtureID,
-    });
-    console.log(fixtureID);
-    const data = {};
-    response.forEach(({ player: { id, name }, fixture }) => {
-      const selectedFixture = fixture.filter(
-        (fixture) => fixture.id == fixtureID
-      );
-      console.log(selectedFixture);
-      data[name] = selectedFixture[0].votes;
-    });
-    if (Object.keys(data).length > 0) {
-      console.log(data);
-      res.status(200).json(data);
-    } else {
-      res.status(404).json(data);
+    const playerID = parseInt(req.params.id);
+    let doc = await Player.aggregate([
+      { $match: { "player.id": playerID } },
+      { $unwind: "$fixtures" },
+      { $sort: { "fixtures.date": -1 } },
+    ]);
+    console.log(doc);
+    let playerObj = { id: doc[0].player.name, data: [] };
+    for (const d of doc) {
+      playerObj.data.push({ x: d.fixtures.league.round, y: d.fixtures.votes });
     }
+    res.status(200).json({ data: [playerObj] });
+  } catch (error) {
+    console.log("error in getting votes", error);
+    res.status(500).json({ error });
+  }
+});
+// returns for all players, takes the league as input
+router.get("/league/:leagueID/votes", async (req, res) => {
+  try {
+    const leagueID = parseInt(req.params.leagueID);
+    const fixtures = await Fixture.find({ "league.id": leagueID });
+    let data = {};
+    for ({
+      fixture: { id },
+    } of fixtures) {
+      const players = await Player.find({ "fixtures.id": id });
+      for (const { player, fixtures } of players) {
+        if (!Object.keys(data).includes(player.name)) {
+          data[player.name] = [];
+          for (const item of fixtures) {
+            data[player.name].push({ x: item.league.round, y: item.votes });
+          }
+        }
+      }
+    }
+    res.status(200).json(data);
   } catch (error) {
     console.log("error in getting votes", error);
     res.status(500).json({ error });

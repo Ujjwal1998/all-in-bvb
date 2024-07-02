@@ -7,6 +7,7 @@ import DisplayVotes from "./displayvotes.jsx";
 function VoteAccordion({
   children,
   fixture,
+  league,
   subs,
   hasVoted,
   setHasVoted,
@@ -22,6 +23,8 @@ function VoteAccordion({
       },
       fixture: {
         id: fixture.id,
+        date: fixture.date,
+        league: league,
       },
     };
     const voteRequest = await axios.post(
@@ -29,6 +32,17 @@ function VoteAccordion({
       payload
     );
     if (voteRequest) {
+      let voteData = JSON.parse(localStorage.getItem("hasVoted"));
+      console.log(voteData);
+      if (voteData) {
+        if (!Object.hasOwn(voteData, fixture.id)) {
+          voteData[fixture.id] = true;
+          localStorage.setItem("hasVoted", JSON.stringify(voteData));
+        }
+      }
+      voteData = {};
+      voteData[fixture.id] = true;
+      localStorage.setItem("hasVoted", JSON.stringify(voteData));
       setHasVoted(true);
       return voteRequest;
     }

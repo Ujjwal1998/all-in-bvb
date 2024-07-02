@@ -34,7 +34,7 @@ export const getOrCreateBVBMatchByDate = async (date) => {
 export const getVotesByFixtureID = async (fixtureID) => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/players/votes/${fixtureID}`
+      `http://localhost:3000/api/fixtures/${fixtureID}/votes`
     );
     return response;
   } catch (error) {

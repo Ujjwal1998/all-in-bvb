@@ -4,41 +4,34 @@ import { getOrCreateBVBMatchByDate, getVotesByFixtureID } from "./dbAPI.js";
 
 export const getBundesligaVotesByMatchDay = async () => {
   try {
-    const matchData = await getAllBVBMatchesData();
-    const bundesligaMatches = matchData.filter(
-      (bm) => bm.leagueShortcut === "bl1"
+    const bundesligaVotes = await axios.get(
+      "http://localhost:3000/api/players/league/4/votes"
     );
-    let res = {};
-    console.log(bundesligaMatches.length);
-    for (const bm of bundesligaMatches) {
-      const { fixture, league } = await getOrCreateBVBMatchByDate(
-        bm.matchDateTimeUTC.split("T")[0]
-      );
-      const fixtureID = fixture.id;
-      const { data } = await getVotesByFixtureID(fixtureID);
-      console.log(data);
-      if (res.hasOwnProperty(league.round)) {
-        res[league.round].push(data);
-      } else {
-        res[league.round] = [data];
-      }
+    let data = [];
+    for (const [key, value] of Object.entries(bundesligaVotes.data)) {
+      data.push({ id: key, data: value });
     }
-    return res;
+    return data;
   } catch (e) {
     console.log(e);
   }
 };
-
-getBundesligaVotesByMatchDay();
-// series={[
-//   {
-//     type: "line",
-//     data: [1, 2, 3, 2, 1],
-//     label: "reus",
-//   },
-//   {
-//     type: "line",
-//     data: [2, 0, 4, 2, 1],
-//     label: "auba",
-//   },
-// ]}
+export const getBundesligaVotesBarData = async () => {
+  try {
+    const bundesligaVotes = await axios.get(
+      "http://localhost:3000/api/players/league/4/votes"
+    );
+    let data = [];
+    for (const [key, value] of Object.entries(bundesligaVotes.data)) {
+      let playerData = { player: key };
+      for (const val of value) {
+        playerData[val["x"]] = val["y"];
+      }
+      data.push(playerData);
+    }
+    console.log(data);
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};

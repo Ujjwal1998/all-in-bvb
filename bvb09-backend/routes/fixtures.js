@@ -13,9 +13,9 @@ const HEADERS = {
   },
 };
 
+// get or create by fixture date
 router.get("/:date", async (req, res) => {
   try {
-    console.log("here");
     let fixture = await getFixtureByDate(req.params.date);
     if (!fixture) {
       // create fixture
@@ -61,8 +61,8 @@ router.get("/:date", async (req, res) => {
   }
 });
 
+// create new fixture
 router.post("/", async (req, res) => {
-  console.log("inside post");
   try {
     let fixture = await Fixture.create(req.body);
     fixture = fixture.toJSON();
@@ -73,12 +73,37 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/votes/:id", async (req, res) => {
+// come back later i dont think this is being used
+// router.get("/votes/:id", async (req, res) => {
+//   try {
+//     const fixtureID = parseInt(req.params.id);
+//     return await Fixture.find({ "fixture.id": fixtureID });
+//   } catch (error) {
+//     console.log("jdslkfds", error);
+//   }
+// });
+
+router.get("/:id/votes", async (req, res) => {
   try {
     const fixtureID = parseInt(req.params.id);
-    return await Fixture.find({ "fixture.id": fixtureID });
+    const response = await Player.find({
+      "fixtures.id": fixtureID,
+    });
+    const data = {};
+    response.forEach(({ player: { id, name }, fixtures }) => {
+      const selectedFixture = fixtures.filter(
+        (fixture) => fixture.id == fixtureID
+      );
+      data[name] = selectedFixture[0].votes;
+    });
+    if (Object.keys(data).length > 0) {
+      res.status(200).json(data);
+    } else {
+      res.status(404).json(data);
+    }
   } catch (error) {
-    console.log("jdslkfds", error);
+    console.log(error);
+    res.status(500).json({ error });
   }
 });
 

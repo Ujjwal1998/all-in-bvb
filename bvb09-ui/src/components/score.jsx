@@ -62,60 +62,30 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
         </div>
       </div>
       <div id="events" className="grid grid-cols-2">
-        <div id="home-goals" className="text-white text-xs p-2">
-          {homeGoals.map((goal, idx) => {
-            if (isBVBHome) {
-              return (
-                <Scorer
-                  goal={goal}
-                  key={idx}
-                  classNames="text-yellow-400 text-xs sm:text-sm sm:text-left"
-                />
-              );
-            } else {
-              return (
-                <Scorer
-                  goal={goal}
-                  key={idx}
-                  classNames="text-white-400 text-xs sm:text-sm sm:text-left"
-                />
-              );
-            }
-          })}
-        </div>
-        {/* <div id="assists">
-          {notGoals.map((ng, idx) => (
-            <div key={idx} className="text-white text-xs">
-              {ng.time.elapsed}' {ng.detail} - {ng.player.name}
-            </div>
-          ))}
-        </div> */}
-        <div id="away-goals">
-          {awayGoals.map((goal, idx) => {
-            if (!isBVBHome) {
-              return (
-                <Scorer
-                  goal={goal}
-                  key={idx}
-                  classNames="text-yellow-400 text-xs sm:text-sm sm:text-left"
-                />
-              );
-            } else {
-              return (
-                <Scorer
-                  goal={goal}
-                  key={idx}
-                  classNames="text-white text-xs sm:text-sm sm:text-left"
-                />
-              );
-            }
-          })}
-        </div>
+        {homeGoals.map((goal, idx) => {
+          if (isBVBHome) {
+            return (
+              <Scorer goal={goal} key={idx} classNames="text-yellow-400" />
+            );
+          } else {
+            return <Scorer goal={goal} key={idx} classNames="text-white" />;
+          }
+        })}
+        {awayGoals.map((goal, idx) => {
+          if (!isBVBHome) {
+            return (
+              <Scorer goal={goal} key={idx} classNames="text-yellow-400" />
+            );
+          } else {
+            return <Scorer goal={goal} key={idx} classNames="text-white" />;
+          }
+        })}
       </div>
       <Accordion type="data">{notGoals}</Accordion>
       <Accordion
         type="vote"
         fixture={val.fixture}
+        league={val.league}
         subs={subs}
         hasVoted={hasVoted}
         setHasVoted={setHasVoted}

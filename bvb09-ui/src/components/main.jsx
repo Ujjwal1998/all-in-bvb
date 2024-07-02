@@ -17,28 +17,37 @@ function Main() {
       const selectedBVBMatch = await getOrCreateBVBMatchByDate(
         matchData[0].matchDateTimeUTC.split("T")[0]
       );
-      setMatches(matchData);
-      setSelectedMatch(selectedBVBMatch);
-    }
-    fetchData();
-  }, []);
-  // effect to getVotesByFixtureID
-  useEffect(() => {
-    console.log(hasVoted, "changed");
-    async function fetchData() {
-      const resp = await getVotesByFixtureID(selectedMatch.fixture.id);
+      const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
       let voteDataArr = [];
       for (const [key, value] of Object.entries(resp.data)) {
-        console.log(key, value, "vda");
         if (value > 0) {
           voteDataArr.push({ id: key, label: key, value: value });
         }
       }
-      console.log(voteDataArr, "vda");
+      if (
+        selectedBVBMatch &&
+        selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
+      ) {
+        // setHasVoted(true);
+      }
       setVoteData(voteDataArr);
+      setMatches(matchData);
+      setSelectedMatch(selectedBVBMatch);
+      const voteData = JSON.parse(localStorage.getItem("hasVoted"));
+      console.log(
+        voteData,
+        Object.hasOwn(voteData, selectedBVBMatch.fixture.id),
+        selectedBVBMatch.fixture.id
+      );
+      if (voteData) {
+        if (Object.hasOwn(voteData, selectedBVBMatch.fixture.id)) {
+          setHasVoted(voteData[selectedBVBMatch.fixture.id]);
+        }
+      }
     }
-    hasVoted && fetchData();
-  }, [hasVoted]);
+    // hasVoted = {id1:true,id2:false, id3:true}
+    fetchData();
+  }, []);
   function dateComparisonHandler(val) {
     const nowDate = new Date();
     const today =
@@ -95,9 +104,26 @@ function Main() {
     );
     console.log(selectedBVBMatch, "changed inr react");
     setSelectedMatch(selectedBVBMatch);
-    setHasVoted(false);
+    if (
+      selectedBVBMatch &&
+      selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
+    ) {
+      const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
+      let voteDataArr = [];
+      for (const [key, value] of Object.entries(resp.data)) {
+        if (value > 0) {
+          voteDataArr.push({ id: key, label: key, value: value });
+        }
+      }
+      setVoteData(voteDataArr);
+      // setHasVoted(true);
+    } else {
+      setHasVoted(false);
+    }
   }
-  console.log(matches, "matechesss");
+  // console.log(selectedMatch.fixture.periods.second + 172800 <= Date.now());
+
+  console.log(selectedMatch, "matechesss");
   return (
     <div className="flex flex-col bg-zinc-800 m-4 sm:w-1/3">
       <section className="">

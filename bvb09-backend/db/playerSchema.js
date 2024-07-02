@@ -9,9 +9,11 @@ const playerSchema = new Schema({
     position: String,
     photo: String,
   },
-  fixture: [
+  fixtures: [
     {
       id: Number,
+      date: String,
+      league: {},
       votes: { type: Number, default: 0 },
       isMOTM: { type: Boolean, default: false },
     },
