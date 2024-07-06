@@ -28,7 +28,7 @@ function VoteAccordion({
       },
     };
     const voteRequest = await axios.post(
-      "http://localhost:3000/api/players/vote",
+      "https://all-in-bvb.onrender.com/api/players/vote",
       payload
     );
     if (voteRequest) {

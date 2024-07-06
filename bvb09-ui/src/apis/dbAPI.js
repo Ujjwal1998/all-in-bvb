@@ -21,7 +21,7 @@ const getAPIFixtureID = async (teamID, fixtureDate) => {
 export const getOrCreateBVBMatchByDate = async (date) => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/fixtures/${date}`
+      `https://all-in-bvb.onrender.com/api/fixtures/${date}`
     );
     if (response.status == 200) {
       return response.data;
@@ -34,7 +34,7 @@ export const getOrCreateBVBMatchByDate = async (date) => {
 export const getVotesByFixtureID = async (fixtureID) => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/api/fixtures/${fixtureID}/votes`
+      `https://all-in-bvb.onrender.com/api/fixtures/${fixtureID}/votes`
     );
     return response;
   } catch (error) {

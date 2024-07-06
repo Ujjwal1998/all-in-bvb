@@ -50,7 +50,6 @@ router.get("/:date", async (req, res) => {
       //   async ({ player }) =>
       //     await addFixtureToPlayer(fixtureDetail.fixture.id, player.id)
       // );
-      // await axios.post("http://localhost:3000/api/fixtures/", fixtureDetail);
     }
     return res.status(200).json(fixture);
   } catch (err) {
