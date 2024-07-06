@@ -62,24 +62,28 @@ function Score({ val, hasVoted, setHasVoted, voteData }) {
         </div>
       </div>
       <div id="events" className="grid grid-cols-2">
-        {homeGoals.map((goal, idx) => {
-          if (isBVBHome) {
-            return (
-              <Scorer goal={goal} key={idx} classNames="text-yellow-400" />
-            );
-          } else {
-            return <Scorer goal={goal} key={idx} classNames="text-white" />;
-          }
-        })}
-        {awayGoals.map((goal, idx) => {
-          if (!isBVBHome) {
-            return (
-              <Scorer goal={goal} key={idx} classNames="text-yellow-400" />
-            );
-          } else {
-            return <Scorer goal={goal} key={idx} classNames="text-white" />;
-          }
-        })}
+        <div>
+          {homeGoals.map((goal, idx) => {
+            if (isBVBHome) {
+              return (
+                <Scorer goal={goal} key={idx} classNames="text-yellow-400" />
+              );
+            } else {
+              return <Scorer goal={goal} key={idx} classNames="text-white" />;
+            }
+          })}
+        </div>
+        <div>
+          {awayGoals.map((goal, idx) => {
+            if (!isBVBHome) {
+              return (
+                <Scorer goal={goal} key={idx} classNames="text-yellow-400" />
+              );
+            } else {
+              return <Scorer goal={goal} key={idx} classNames="text-white" />;
+            }
+          })}
+        </div>
       </div>
       <Accordion type="data">{notGoals}</Accordion>
       <Accordion

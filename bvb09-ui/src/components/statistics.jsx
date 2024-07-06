@@ -22,9 +22,13 @@ function Statisitics() {
     fetchData();
   }, []);
   return (
-    <div className="w-3/5 max-h-96">
-      {bligaVotes && <LineChart data={bligaVotes} />}
-      {bligaBarData && <MyResponsiveBar data={bligaBarData} />}
+    <div className="flex flex-col min-h-screen w-full bg-zinc-800">
+      <div className="grow">
+        {bligaVotes && <LineChart data={bligaVotes} />}
+      </div>
+      <div className="grow">
+        {bligaBarData && <MyResponsiveBar data={bligaBarData} />}
+      </div>
     </div>
   );
 }

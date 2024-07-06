@@ -19,9 +19,11 @@ function Main() {
       );
       const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
       let voteDataArr = [];
-      for (const [key, value] of Object.entries(resp.data)) {
-        if (value > 0) {
-          voteDataArr.push({ id: key, label: key, value: value });
+      if (resp?.data) {
+        for (const [key, value] of Object.entries(resp.data)) {
+          if (value > 0) {
+            voteDataArr.push({ id: key, label: key, value: value });
+          }
         }
       }
       if (
@@ -125,7 +127,7 @@ function Main() {
 
   console.log(selectedMatch, "matechesss");
   return (
-    <div className="flex flex-col bg-zinc-800 m-4 sm:w-1/3">
+    <div className="flex flex-col bg-zinc-800 m-2 sm:w-1/3">
       <section className="">
         {/* <div className="rounded-2xl"> */}
         <img className=" rounded-xl" src={bvb} alt="BVB Poster" />

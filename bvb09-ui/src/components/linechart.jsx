@@ -4,34 +4,6 @@ import { ResponsiveAreaBump, ResponsiveBump } from "@nivo/bump";
 function LineChart({ data }) {
   console.log(data);
 
-  const data2 = [
-    {
-      id: "Group A - 3",
-      data: [
-        {
-          x: "Neuer",
-          y: 2,
-        },
-        {
-          x: "Kimmich",
-          y: 1,
-        },
-      ],
-    },
-    {
-      id: "Group A - 2",
-      data: [
-        {
-          x: "Neuer",
-          y: 2,
-        },
-        {
-          x: "Schlotti",
-          y: 1,
-        },
-      ],
-    },
-  ];
   const data3 = [
     {
       id: "M. Neuer",
