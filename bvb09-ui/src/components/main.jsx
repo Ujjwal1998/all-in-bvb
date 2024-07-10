@@ -30,7 +30,7 @@ function Main() {
         selectedBVBMatch &&
         selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
       ) {
-        // setHasVoted(true);
+        setHasVoted(true);
       }
       setVoteData(voteDataArr);
       setMatches(matchData);
@@ -47,7 +47,6 @@ function Main() {
         }
       }
     }
-    // hasVoted = {id1:true,id2:false, id3:true}
     fetchData();
   }, []);
   function dateComparisonHandler(val) {
@@ -118,7 +117,7 @@ function Main() {
         }
       }
       setVoteData(voteDataArr);
-      // setHasVoted(true);
+      setHasVoted(true);
     } else {
       setHasVoted(false);
     }

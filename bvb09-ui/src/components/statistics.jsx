@@ -10,17 +10,38 @@ import {
 
 function Statisitics() {
   const [bligaVotes, setBligaVotes] = useState(null);
-  const [bligaBarData, setBligaBarData] = useState(null);
+  // const [bligaBarData, setBligaBarData] = useState(null);
   useEffect(() => {
     async function fetchData() {
       const bundesligaVotes = await getBundesligaVotesByMatchDay();
       console.log(bundesligaVotes);
       const barData = await getBundesligaVotesBarData();
+      console.log(barData);
       setBligaBarData(barData);
       setBligaVotes(bundesligaVotes);
     }
     fetchData();
   }, []);
+  let bligaBarData = [
+    {
+      id: "MD 3",
+      A: 1,
+      B: 2,
+    },
+    {
+      id: "MD 3",
+      C: 3,
+    },
+    {
+      id: "MD 1",
+      C: 2,
+      A: 1,
+    },
+    {
+      id: "QF",
+      B: 6,
+    },
+  ];
   return (
     <div className="flex flex-col min-h-screen w-full bg-zinc-800">
       <div className="grow">

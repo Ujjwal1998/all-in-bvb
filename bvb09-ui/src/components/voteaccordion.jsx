@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import VotePlayer from "./voteplayer.jsx";
 import DisplayVotes from "./displayvotes.jsx";
 
+// ?: Ideally i can just local storage here rather than pass the has voted down to here
 function VoteAccordion({
   children,
   fixture,
@@ -47,13 +48,21 @@ function VoteAccordion({
       return voteRequest;
     }
   };
+  useEffect(() => {
+    if (hasVoted) {
+      setIsOpen(true);
+    }
+  }, [hasVoted]);
+
   return (
     <div className=" bg-zinc-900 text-white ">
       <div
         className="flex justify-between items-center p-2 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h2 className="text-sm text-white">Vote your MOTM</h2>
+        <h2 className="text-sm text-white">
+          {hasVoted ? <>MOTM Results</> : <>Vote your MOTM</>}
+        </h2>
         <svg
           className={`w-6 h-6 text-white ${
             isOpen ? "transform rotate-180" : ""
@@ -71,16 +80,15 @@ function VoteAccordion({
           />
         </svg>
       </div>
-      {isOpen &&
-        (hasVoted ? (
-          <DisplayVotes voteData={voteData} />
-        ) : (
-          <VotePlayer
-            startingEleven={startingEleven}
-            subs={subs}
-            voteClickHandler={voteClickHandler}
-          ></VotePlayer>
-        ))}
+      {hasVoted ? (
+        <DisplayVotes voteData={voteData} />
+      ) : (
+        <VotePlayer
+          startingEleven={startingEleven}
+          subs={subs}
+          voteClickHandler={voteClickHandler}
+        ></VotePlayer>
+      )}
     </div>
   );
 }
