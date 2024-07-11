@@ -1,5 +1,5 @@
 import { ResponsiveLine } from "@nivo/line";
-import { ResponsiveAreaBump, ResponsiveBump } from "@nivo/bump";
+import { ResponsiveAreaBump, ResponsiveBump, Bump } from "@nivo/bump";
 
 function LineChart({ data }) {
   console.log(data);
@@ -75,8 +75,10 @@ function LineChart({ data }) {
     },
   ];
   return (
-    <ResponsiveBump
+    <Bump
       data={data3}
+      height={300}
+      width={300}
       colors={{ scheme: "spectral" }}
       lineWidth={3}
       activeLineWidth={6}

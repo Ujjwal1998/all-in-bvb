@@ -1,41 +1,49 @@
-import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { HomeIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
 import { Link } from "react-router-dom";
 import { PresentationChartLineIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
-function Drawer() {
-  const [isOpen, setIsOpen] = useState(false);
+function Drawer({ isOpen, setIsOpen }) {
   return (
-    <div
-      className={`text-white transition-all duration-1000 ease-in-out ${
-        isOpen ? "w-96" : "w-18"
-      } text-wrap bg-zinc-700 sm:hidden`}
-    >
-      {
-        <div
-          className={`flex flex-col ${
-            isOpen ? "items-start" : "items-center"
-          } gap-4 my-2`}
-        >
-          <button onClick={() => setIsOpen(!isOpen)} className="bg-transparent">
-            {!isOpen ? (
-              <Bars3Icon className="w-6"></Bars3Icon>
-            ) : (
+    isOpen && (
+      <div
+        className={`text-white fixed transition ease-in duration-1000 transform h-full z-10 backdrop-blur overflow-visible bg-zinc-800 border-2   sm:hidden ${
+          isOpen ? "w-1/2" : "w-0"
+        }`}
+      >
+        {
+          <div
+            className={`flex flex-col ${
+              isOpen ? "items-start" : "items-center"
+            } gap-4 my-2`}
+          >
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="bg-transparent"
+            >
               <XMarkIcon className="w-6"></XMarkIcon>
-            )}
-          </button>
-          <Link to="/" className="flex">
-            <HomeIcon className="w-6" />
-            {isOpen && <span className="mx-1">Home</span>}
-          </Link>
-          <Link to="/stats" className="flex">
-            <PresentationChartLineIcon className="w-6" />
-            {isOpen && <span className="mx-1">Statistics</span>}
-          </Link>
-        </div>
-      }
-    </div>
+            </button>
+            <aside className="mx-4 space-y-8 border-b-1 border-white">
+              <Link
+                to="/"
+                className="flex gap-4"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <HomeIcon className="w-6" />
+                <span className="">Home</span>
+              </Link>
+              <Link
+                to="/stats"
+                className="flex gap-4 border-b-2"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <PresentationChartLineIcon className="w-6" />
+                {isOpen && <span className="">Statistics</span>}
+              </Link>
+            </aside>
+          </div>
+        }
+      </div>
+    )
   );
 }
-
 export default Drawer;

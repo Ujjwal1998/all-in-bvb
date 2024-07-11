@@ -5,7 +5,7 @@ import { getOrCreateBVBMatchByDate, getVotesByFixtureID } from "./dbAPI.js";
 export const getBundesligaVotesByMatchDay = async () => {
   try {
     const bundesligaVotes = await axios.get(
-      "https://all-in-bvb.onrender.com/api/players/league/4/votes"
+      `${import.meta.env.VITE_NODE_HOST}/api/players/league/4/votes`
     );
     let data = [];
     for (const [key, value] of Object.entries(bundesligaVotes.data)) {
@@ -19,7 +19,7 @@ export const getBundesligaVotesByMatchDay = async () => {
 export const getBundesligaVotesBarData = async () => {
   try {
     const bundesligaVotes = await axios.get(
-      "https://all-in-bvb.onrender.com/api/players/league/4/votes"
+      `${import.meta.env.VITE_NODE_HOST}/api/players/league/4/votes`
     );
     let data = [];
     for (const [key, value] of Object.entries(bundesligaVotes.data)) {

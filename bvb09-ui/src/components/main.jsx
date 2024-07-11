@@ -36,11 +36,6 @@ function Main() {
       setMatches(matchData);
       setSelectedMatch(selectedBVBMatch);
       const voteData = JSON.parse(localStorage.getItem("hasVoted"));
-      console.log(
-        voteData,
-        Object.hasOwn(voteData, selectedBVBMatch.fixture.id),
-        selectedBVBMatch.fixture.id
-      );
       if (voteData) {
         if (Object.hasOwn(voteData, selectedBVBMatch.fixture.id)) {
           setHasVoted(voteData[selectedBVBMatch.fixture.id]);

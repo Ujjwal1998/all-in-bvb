@@ -18,10 +18,7 @@ const populateSquad = async () => {
     console.log(response.data.response);
     const players = response.data.response[0].players;
     players.forEach((player) => {
-      axios.post(
-        `https://all-in-bvb.onrender.com/api/players/${player.id}`,
-        player
-      );
+      axios.post(`${process.env.NODE_HOST}/api/players/${player.id}`, player);
     });
     return;
   } catch (error) {

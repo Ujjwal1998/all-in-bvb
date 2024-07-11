@@ -1,4 +1,4 @@
-import { ResponsivePie } from "@nivo/pie";
+import { ResponsivePie, Pie } from "@nivo/pie";
 import { createElement } from "react";
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -6,63 +6,53 @@ import { createElement } from "react";
 // website examples showcase many properties,
 // you'll often use just a few of them.
 const MyResponsivePie = ({ data /* see data tab */ }) => {
-  // const newData = [
-  //   {
-  //     id: "M. Neuer",
-  //     label: "M. Neuer",
-  //     value: 2,
-  //   },
-  //   {
-  //     id: "M. Neuer",
-  //     label: "M. Neuer",
-  //     value: 2,
-  //   },
-  // ];
-  const newData = [
+  const data2 = [
     {
-      id: "M. Neuer",
-      label: "M. Neuer",
-      value: 5,
+      id: "hack",
+      label: "hack",
+      value: 531,
+      color: "hsl(49, 70%, 50%)",
     },
     {
-      id: "M. Mittelstädt",
-      label: "M. Mittelstädt",
-      value: 2,
+      id: "stylus",
+      label: "stylus",
+      value: 557,
+      color: "hsl(46, 70%, 50%)",
     },
     {
-      id: "A. Rüdiger",
-      label: "A. Rüdiger",
-      value: 3,
+      id: "java",
+      label: "java",
+      value: 340,
+      color: "hsl(183, 70%, 50%)",
     },
     {
-      id: "J. Kimmich",
-      label: "J. Kimmich",
-      value: 2,
+      id: "scala",
+      label: "scala",
+      value: 566,
+      color: "hsl(134, 70%, 50%)",
     },
     {
-      id: "F. Wirtz",
-      label: "F. Wirtz",
-      value: 1,
-    },
-    {
-      id: "J. Tah",
-      label: "J. Tah",
-      value: 1,
+      id: "erlang",
+      label: "erlang",
+      value: 97,
+      color: "hsl(228, 70%, 50%)",
     },
   ];
   return (
-    <div className="w-full h-96 bg-zinc-800">
+    <div className="grow">
       {data && (
         <ResponsivePie
           // data={newData}
           data={data}
-          margin={{ top: 0, right: 100, bottom: 0, left: 100 }}
+          // margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+          // height={400}
+          // width={300}
           sortByValue={true}
           innerRadius={0.5}
           padAngle={0.7}
           cornerRadius={3}
           activeOuterRadiusOffset={8}
-          borderWidth={4}
+          borderWidth={1}
           borderColor="black"
           arcLinkLabelsTextOffset={1}
           arcLinkLabelsTextColor="#ffffff"
@@ -71,14 +61,15 @@ const MyResponsivePie = ({ data /* see data tab */ }) => {
           arcLinkLabelsStraightLength={12}
           arcLinkLabelsThickness={4}
           arcLinkLabelsColor={{ from: "color", modifiers: [] }}
-          arcLabel="value"
+          arcLabel={(e) => e.id + "(" + e.value + ")"}
+          enableArcLinkLabels={false}
           arcLabelsRadiusOffset={0.5}
           arcLabelsTextColor="black"
           tooltip={(e) => {
             let { datum } = e;
             console.log(e, datum);
-            console.log(datum.label);
-            return datum.label;
+            console.log(datum.label, datum.value);
+            return `${datum.label}\n ${datum.value}`;
             // return createElement()
             // return i.createElement(
             //   l,
@@ -115,16 +106,16 @@ const MyResponsivePie = ({ data /* see data tab */ }) => {
           ]}
           // legends={[
           //   {
-          //     anchor: "top-left",
-          //     direction: "column",
+          //     anchor: "bottom",
+          //     direction: "row",
           //     justify: false,
-          //     translateX: 0,
+          //     translateX: 21,
           //     translateY: 0,
-          //     itemWidth: 100,
-          //     itemHeight: 20,
+          //     itemWidth: 93,
+          //     itemHeight: 10,
           //     itemsSpacing: 0,
-          //     symbolSize: 20,
-          //     itemDirection: "left-to-right",
+          //     symbolSize: 29,
+          //     itemDirection: "top-to-bottom",
           //   },
           // ]}
         />

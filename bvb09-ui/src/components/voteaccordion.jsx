@@ -14,7 +14,6 @@ function VoteAccordion({
   setHasVoted,
   voteData,
 }) {
-  console.log(children, "CHILD");
   const startingEleven = children[0].startXI;
   const [isOpen, setIsOpen] = useState(false);
   const voteClickHandler = async (playerID) => {
@@ -29,7 +28,7 @@ function VoteAccordion({
       },
     };
     const voteRequest = await axios.post(
-      "https://all-in-bvb.onrender.com/api/players/vote",
+      `${import.meta.env.VITE_NODE_HOST}/api/players/vote`,
       payload
     );
     if (voteRequest) {
