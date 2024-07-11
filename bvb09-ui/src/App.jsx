@@ -1,12 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/sidebar.jsx";
-import Main from "./components/main.jsx";
 import Statisitics from "./pages/Stats.jsx";
-import Home from "./pages/Home.jsx";
 import ThirdBar from "./components/thirdbar.jsx";
 import Header from "./components/header.jsx";
 import Footer from "./components/footer.jsx";
 import Drawer from "./components/drawer.jsx";
+import Home from "./pages/Home.jsx";
 
 function App() {
   return (
