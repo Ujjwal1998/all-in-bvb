@@ -6,14 +6,14 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <div className="flex text-yellow-400 bg-zinc-800 border-solid border-yellow-400 border-y-2 fixed w-full border sm:hidden">
+      <div className="flex text-yellow-400 bg-zinc-800 border-solid border-yellow-400 border-y-2 fixed w-full border text-center sm:hidden">
         <button
           className="bg-transparent flex-none"
           onClick={() => setIsOpen(true)}
         >
           <Bars3Icon className="w-6"></Bars3Icon>
         </button>
-        <span className="grow font-chakra  text-3xl w-6 justify-center content-center">
+        <span className="grow font-chakra text-3xl justify-center content-center">
           ALL-IN-BVB09
         </span>
       </div>
