@@ -14,31 +14,13 @@ function Statisitics() {
   useEffect(() => {
     async function fetchData() {
       const bundesligaVotes = await getBundesligaVotesByMatchDay();
-      console.log(bundesligaVotes);
+      // ? CONSTANT IN USE
       const barData = await getLeagueVotesBarData(4);
-      console.log(barData);
       setBligaBarData(barData);
       setBligaVotes(bundesligaVotes);
     }
     fetchData();
   }, []);
-  console.log(bligaBarData);
-  // let bligaBarData = [
-  //   {
-  //     id: "MD 3",
-  //     A: 1,
-  //     B: 2,
-  //   },
-  //   {
-  //     id: "MD 1",
-  //     C: 2,
-  //     A: 1,
-  //   },
-  //   {
-  //     id: "QF 1",
-  //     B: 15,
-  //   },
-  // ];
   return (
     <div className="flex flex-col bg-zinc-800 h-screen w-full mt-12 mx-4 text-white w-full">
       <div className="flex font-black w-6">

@@ -44,7 +44,6 @@ router.get("/:date", async (req, res) => {
       }
       let newFixture = await Fixture.create(fixtureDetail);
       newFixture = newFixture.toJSON();
-      console.log("post 2");
       return res.status(201).json(newFixture);
       // allPlayers.forEach(
       //   async ({ player }) =>
@@ -82,7 +81,6 @@ router.get("/leagues/:id", async (req, res) => {
       },
     ];
     const response = await Fixture.aggregate(agg);
-    console.log(response);
     return res.status(200).json(response);
   } catch (err) {
     console.error(err);
@@ -97,7 +95,6 @@ router.post("/", async (req, res) => {
   try {
     let fixture = await Fixture.create(req.body);
     fixture = fixture.toJSON();
-    console.log("post 2");
     res.status(201).json(fixture);
   } catch (err) {
     res.status(400).json({ message: err.message });

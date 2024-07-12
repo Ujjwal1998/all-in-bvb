@@ -151,23 +151,7 @@ router.get("/fixtures/:fixtureID/votes", async (req, res) => {
         },
       },
     ];
-    console.log(agg);
     const fixtureVotes = await Player.aggregate(agg);
-    console.log(fixtureVotes);
-    // let data = {};
-    // for ({
-    //   fixture: { id },
-    // } of fixtures) {
-    //   const players = await Player.find({ "fixtures.id": id });
-    //   for (const { player, fixtures } of players) {
-    //     if (!Object.keys(data).includes(player.name)) {
-    //       data[player.name] = [];
-    //       for (const item of fixtures) {
-    //         data[player.name].push({ x: item.league.round, y: item.votes });
-    //       }
-    //     }
-    //   }
-    // }
     res.status(200).json(fixtureVotes);
   } catch (error) {
     console.log("error in getting votes", error);

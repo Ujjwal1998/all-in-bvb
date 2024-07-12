@@ -18,20 +18,16 @@ export const getBundesligaVotesByMatchDay = async () => {
 };
 export const getLeagueVotesBarData = async (leagueID) => {
   try {
-    console.log("-------------------");
     const leagueFixtures = await axios.get(
       `${import.meta.env.VITE_NODE_HOST}/api/fixtures/leagues/${leagueID}`
     );
-    console.log(leagueFixtures);
     let data = [];
     for (const {
       fixture: { id },
     } of leagueFixtures.data) {
-      console.log(id);
       const fixtureVotes = await axios.get(
         `${import.meta.env.VITE_NODE_HOST}/api/players/fixtures/${id}/votes`
       );
-      console.log(fixtureVotes.data);
       let currentData = {};
       for (const { round_number, player_name, votes } of fixtureVotes.data) {
         currentData["round"] = round_number;
@@ -39,7 +35,6 @@ export const getLeagueVotesBarData = async (leagueID) => {
       }
       data.push(currentData);
     }
-    console.log(data);
     return data;
   } catch (e) {
     console.log(e);
