@@ -108,6 +108,72 @@ router.get("/league/:leagueID/votes", async (req, res) => {
     res.status(500).json({ error });
   }
 });
+// takes fixture id as input, returs all players and their votes sorted, can help in ranking also in finding the top player
+router.get("/fixtures/:fixtureID/votes", async (req, res) => {
+  try {
+    const fixtureID = parseInt(req.params.fixtureID);
+    const agg = [
+      {
+        $unwind: {
+          path: "$fixtures",
+        },
+      },
+      {
+        $match: {
+          "fixtures.id": fixtureID,
+        },
+      },
+      {
+        $sort: {
+          "fixtures.votes": 1,
+        },
+      },
+      {
+        $set: {
+          player_name: {
+            $toString: "$player.name",
+          },
+          votes: {
+            $toString: "$fixtures.votes",
+          },
+          round: {
+            $toString: "$fixtures.league.round",
+          },
+        },
+      },
+      {
+        $project: {
+          player_name: 1,
+          votes: 1,
+          round_number: {
+            $substr: ["$round", 6, -1],
+          },
+        },
+      },
+    ];
+    console.log(agg);
+    const fixtureVotes = await Player.aggregate(agg);
+    console.log(fixtureVotes);
+    // let data = {};
+    // for ({
+    //   fixture: { id },
+    // } of fixtures) {
+    //   const players = await Player.find({ "fixtures.id": id });
+    //   for (const { player, fixtures } of players) {
+    //     if (!Object.keys(data).includes(player.name)) {
+    //       data[player.name] = [];
+    //       for (const item of fixtures) {
+    //         data[player.name].push({ x: item.league.round, y: item.votes });
+    //       }
+    //     }
+    //   }
+    // }
+    res.status(200).json(fixtureVotes);
+  } catch (error) {
+    console.log("error in getting votes", error);
+    res.status(500).json({ error });
+  }
+});
 
 // router.get("/votes", async (req, res) => {
 //   try {

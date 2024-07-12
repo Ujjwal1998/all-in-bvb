@@ -60,6 +60,38 @@ router.get("/:date", async (req, res) => {
   }
 });
 
+// get fixtures inside a leagueID
+router.get("/leagues/:id", async (req, res) => {
+  try {
+    const leagueID = parseInt(req.params.id);
+    const agg = [
+      {
+        $match: {
+          "league.id": leagueID,
+        },
+      },
+      {
+        $sort: {
+          "fixture.date": 1,
+        },
+      },
+      {
+        $project: {
+          "fixture.id": 1,
+        },
+      },
+    ];
+    const response = await Fixture.aggregate(agg);
+    console.log(response);
+    return res.status(200).json(response);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving the fixture." });
+  }
+});
+
 // create new fixture
 router.post("/", async (req, res) => {
   try {

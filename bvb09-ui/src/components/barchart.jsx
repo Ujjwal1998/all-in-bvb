@@ -6,18 +6,86 @@ import { ResponsiveBar, Bar } from "@nivo/bar";
 // website examples showcase many properties,
 // you'll often use just a few of them.
 const MyResponsiveBar = ({ data }) => {
-  console.log(data);
+  const data2 = [
+    {
+      round: "A - 2",
+      "M. Neuer": "1",
+      "J. Kimmich": "1",
+    },
+    {
+      round: "A - 2",
+      "M. Neuer": "1",
+      "J. Kimmich": "1",
+    },
+    {
+      round: "A - 3",
+      "A. Rüdiger": "1",
+      "M. Neuer": "3",
+    },
+    {
+      round: "A - 3",
+      "A. Rüdiger": "1",
+      "M. Neuer": "3",
+    },
+    {
+      round: "of 16",
+      "M. Neuer": "1",
+      "A. Rüdiger": "2",
+      "J. Kimmich": "2",
+      "N. Schlotterbeck": "3",
+    },
+    {
+      round: "of 16",
+      "M. Neuer": "1",
+      "A. Rüdiger": "2",
+      "J. Kimmich": "2",
+      "N. Schlotterbeck": "3",
+    },
+    {
+      round: "of 16",
+      "M. Neuer": "1",
+      "A. Rüdiger": "2",
+      "J. Kimmich": "2",
+      "N. Schlotterbeck": "3",
+    },
+    {
+      round: "of 16",
+      "M. Neuer": "1",
+      "A. Rüdiger": "2",
+      "J. Kimmich": "2",
+      "N. Schlotterbeck": "3",
+    },
+    {
+      round: "r-finals",
+      "J. Tah": "1",
+      "A. Rüdiger": "2",
+    },
+    {
+      round: "r-finals",
+      "J. Tah": "1",
+      "A. Rüdiger": "2",
+    },
+  ];
+  let keys = [];
+  for (const item of data) {
+    keys = keys.concat(Object.keys(item));
+    console.log(Object.keys(item), keys);
+  }
+  let playerKeys = [...new Set(keys)];
+  playerKeys.splice(0, 1);
+  console.log(playerKeys);
   return (
-    <Bar
+    <ResponsiveBar
       data={data}
-      height={200}
-      width={300}
-      keys={["A", "B", "C"]}
-      margin={{ top: 10, right: 5, bottom: 50, left: 5 }}
+      // height={300}
+      // width={350}
+      keys={playerKeys}
+      indexBy={"round"}
+      margin={{ top: 10, right: 70, bottom: 50, left: 30 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={{ scheme: "accent" }}
+      colors={{ scheme: "paired" }}
       borderColor={{
         from: "color",
         modifiers: [["darker", 1.6]],
@@ -25,24 +93,24 @@ const MyResponsiveBar = ({ data }) => {
       borderWidth={2}
       axisTop={null}
       axisRight={null}
-      axisBottom={{
-        tickSize: 0,
-        tickPadding: 5,
-        tickRotation: 90,
-        legend: "player",
-        legendPosition: "middle",
-        legendOffset: 32,
-        truncateTickAt: 0,
-      }}
-      axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "food",
-        legendPosition: "middle",
-        legendOffset: -40,
-        truncateTickAt: 0,
-      }}
+      // axisBottom={{
+      //   tickSize: 0,
+      //   tickPadding: 5,
+      //   tickRotation: 90,
+      //   legend: "Players",
+      //   legendPosition: "middle",
+      //   legendOffset: 40,
+      //   truncateTickAt: 0,
+      // }}
+      // axisLeft={{
+      //   tickSize: 5,
+      //   tickPadding: 5,
+      //   tickRotation: 0,
+      //   legend: "Votes",
+      //   legendPosition: "middle",
+      //   legendOffset: -40,
+      //   truncateTickAt: 0,
+      // }}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{
@@ -57,12 +125,12 @@ const MyResponsiveBar = ({ data }) => {
           justify: false,
           translateX: 120,
           translateY: 0,
-          itemsSpacing: 2,
-          itemWidth: 100,
-          itemHeight: 20,
+          itemsSpacing: 0,
+          itemWidth: 109,
+          itemHeight: 14,
           itemDirection: "left-to-right",
           itemOpacity: 0.85,
-          symbolSize: 20,
+          symbolSize: 10,
           effects: [
             {
               on: "hover",
@@ -79,7 +147,7 @@ const MyResponsiveBar = ({ data }) => {
         background: "black",
         text: {
           fontSize: 11,
-          fill: "#333333",
+          fill: "#ffffff",
           outlineWidth: 0,
           outlineColor: "transparent",
         },
@@ -96,6 +164,9 @@ const MyResponsiveBar = ({ data }) => {
               fill: "#ffffff",
               outlineWidth: 0,
               outlineColor: "transparent",
+            },
+            title: {
+              fill: "#ffffff",
             },
           },
           ticks: {
@@ -115,31 +186,6 @@ const MyResponsiveBar = ({ data }) => {
           line: {
             stroke: "#dddddd",
             strokeWidth: 1,
-          },
-        },
-        legends: {
-          title: {
-            text: {
-              fontSize: 11,
-              fill: "#333333",
-              outlineWidth: 0,
-              outlineColor: "transparent",
-            },
-          },
-          text: {
-            fontSize: 11,
-            fill: "#333333",
-            outlineWidth: 0,
-            outlineColor: "transparent",
-          },
-          ticks: {
-            line: {},
-            text: {
-              fontSize: 10,
-              fill: "#333333",
-              outlineWidth: 0,
-              outlineColor: "transparent",
-            },
           },
         },
         annotations: {

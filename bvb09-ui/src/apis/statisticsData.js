@@ -16,18 +16,28 @@ export const getBundesligaVotesByMatchDay = async () => {
     console.log(e);
   }
 };
-export const getBundesligaVotesBarData = async () => {
+export const getLeagueVotesBarData = async (leagueID) => {
   try {
-    const bundesligaVotes = await axios.get(
-      `${import.meta.env.VITE_NODE_HOST}/api/players/league/4/votes`
+    console.log("-------------------");
+    const leagueFixtures = await axios.get(
+      `${import.meta.env.VITE_NODE_HOST}/api/fixtures/leagues/${leagueID}`
     );
+    console.log(leagueFixtures);
     let data = [];
-    for (const [key, value] of Object.entries(bundesligaVotes.data)) {
-      let playerData = { player: key };
-      for (const val of value) {
-        playerData[val["x"]] = val["y"];
+    for (const {
+      fixture: { id },
+    } of leagueFixtures.data) {
+      console.log(id);
+      const fixtureVotes = await axios.get(
+        `${import.meta.env.VITE_NODE_HOST}/api/players/fixtures/${id}/votes`
+      );
+      console.log(fixtureVotes.data);
+      let currentData = {};
+      for (const { round_number, player_name, votes } of fixtureVotes.data) {
+        currentData["round"] = round_number;
+        currentData[player_name] = votes;
       }
-      data.push(playerData);
+      data.push(currentData);
     }
     console.log(data);
     return data;
