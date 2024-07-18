@@ -123,7 +123,7 @@ function Home() {
   console.log(selectedMatch, "matechesss");
   return (
     <>
-      <div className="flex flex-col bg-zinc-800 m-2 sm:w-1/3 md:w-1/2">
+      <div className="flex flex-col bg-zinc-800 m-2  md:w-1/2">
         <section className="">
           {/* <div className="rounded-2xl"> */}
           <img className=" rounded-xl" src={bvb} alt="BVB Poster" />
@@ -177,30 +177,26 @@ function Home() {
           )}
         </section>
       </div>
-      <div>
-        {selectedMatch ? (
-          <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/4 sm:h-full">
-            <span>
-              {selectedMatch.league.name} - {selectedMatch.league.round}
-            </span>
-            <VoteAccordion
-              type="vote"
-              selectedMatch={selectedMatch}
-              hasVoted={hasVoted}
-              setHasVoted={setHasVoted}
-              voteData={voteData}
-            >
-              {selectedMatch.lineups.filter((lineup) => {
-                return (
-                  lineup.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID
-                );
-              })}
-            </VoteAccordion>
-          </div>
-        ) : (
-          <>Ye bhi loading</>
-        )}
-      </div>
+      {selectedMatch ? (
+        <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/3 sm:h-full">
+          <span>
+            {selectedMatch.league.name} - {selectedMatch.league.round}
+          </span>
+          <VoteAccordion
+            type="vote"
+            selectedMatch={selectedMatch}
+            hasVoted={hasVoted}
+            setHasVoted={setHasVoted}
+            voteData={voteData}
+          >
+            {selectedMatch.lineups.filter((lineup) => {
+              return lineup.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID;
+            })}
+          </VoteAccordion>
+        </div>
+      ) : (
+        <>Ye bhi loading</>
+      )}
     </>
   );
 }
