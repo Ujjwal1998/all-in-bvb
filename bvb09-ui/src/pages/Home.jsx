@@ -177,12 +177,12 @@ function Home() {
           )}
         </section>
       </div>
-      <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/4 sm:h-full">
-        <span>
-          {selectedMatch.league.name} - {selectedMatch.league.round}
-        </span>
-        <div>
-          {selectedMatch ? (
+      <div>
+        {selectedMatch ? (
+          <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/4 sm:h-full">
+            <span>
+              {selectedMatch.league.name} - {selectedMatch.league.round}
+            </span>
             <VoteAccordion
               type="vote"
               selectedMatch={selectedMatch}
@@ -196,10 +196,10 @@ function Home() {
                 );
               })}
             </VoteAccordion>
-          ) : (
-            <>Ye bhi loading</>
-          )}
-        </div>
+          </div>
+        ) : (
+          <>Ye bhi loading</>
+        )}
       </div>
     </>
   );
