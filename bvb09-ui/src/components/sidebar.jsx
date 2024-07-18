@@ -8,23 +8,23 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <section className="hidden text-xl bg-zinc-800 text-white rounded-2xl m-2 sm:block ">
-      <div className="sm:mt-8 sm:mx-8 sm:font-chakra sm:text-4xl sm:text-yellow-400 sm:bg-zinc-800">
+    <section className="hidden text-xl bg-zinc-800 text-white rounded-2xl m-2 sm:block md:w-1/3">
+      <div className="text-center mt-8 font-chakra text-xl text-yellow-400 lg:text-2xl">
         ALL-IN-DORTMUND
       </div>
-      <nav className="flex flex-col  my-10 text-2xl sm:text-3xl">
+      <nav className="flex flex-col my-4 text-lg">
         <Link to="/" className="flex mx-6 my-4">
-          <HomeIcon className="w-6" />
+          <HomeIcon className="w-5" />
           <span className="mx-2">Home</span>
         </Link>
-        <Link to="/stats" className="flex mx-6">
-          <PresentationChartLineIcon className="w-6" />
+        <Link to="/stats" className="flex mx-6 my-4">
+          <PresentationChartLineIcon className="w-5" />
           <span className="mx-2">Statistics</span>
         </Link>
-        {/* <Link to="/stats" className="flex mx-6">
-          <CalendarDaysIcon className="w-6" />
+        <Link to="/stats" className="flex mx-6 my-4">
+          <CalendarDaysIcon className="w-5" />
           <span className="mx-2">Schedule</span>
-        </Link> */}
+        </Link>
       </nav>
 
       {/* <div>

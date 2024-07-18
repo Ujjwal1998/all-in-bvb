@@ -79,7 +79,7 @@ function LineChart({ data }) {
       data={data}
       // height={300}
       // width={300}
-      margin={{ top: 10, right: 70, bottom: 50, left: 30 }}
+      margin={{ top: 10, right: 130, bottom: 50, left: 30 }}
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",

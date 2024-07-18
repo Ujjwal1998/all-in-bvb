@@ -4,6 +4,9 @@ import { getAllBVBMatchesData } from "../apis/openLigaData.js";
 import { getOrCreateBVBMatchByDate } from "../apis/dbAPI.js";
 import { getVotesByFixtureID } from "../apis/dbAPI.js";
 import Score from "../components/score.jsx";
+import Button from "../components/Button.jsx";
+import Accordion from "../components/accordion.jsx";
+import VoteAccordion from "../components/voteaccordion.jsx";
 
 function Home() {
   const [matches, setMatches] = useState();
@@ -66,9 +69,8 @@ function Home() {
       return <button>Today</button>;
     } else if (selectedMatch.matchID == val.matchID) {
       return (
-        <button
+        <Button
           onClick={() => matchDateButtonHandler(val)}
-          className="bg-zinc-700 text-yellow-400 border-yellow-400 focus:outline-none active:underline focus:underline active:outline-none focus:border-yellow-400"
           id={val.matchID}
           key={val.matchID}
         >
@@ -76,7 +78,7 @@ function Home() {
             day: "numeric",
             month: "short",
           })}
-        </button>
+        </Button>
       );
     } else {
       return (
@@ -118,40 +120,88 @@ function Home() {
     }
   }
   // console.log(selectedMatch.fixture.periods.second + 172800 <= Date.now());
-
   console.log(selectedMatch, "matechesss");
   return (
-    <div className="flex flex-col bg-zinc-800 m-2 sm:w-1/3">
-      <section className="">
-        {/* <div className="rounded-2xl"> */}
-        <img className=" rounded-xl" src={bvb} alt="BVB Poster" />
-        {/* </div> */}
-      </section>
-      <section className="mt-2 grow min-h-screen">
-        {/* <div className="bg-zinc-400 w-3/5">Search Bar</div> */}
-        <div className="bg-zinc-700 mt-1">
-          <div className="flex flex-row justify-evenly">
-            {matches ? (
-              matches.map((val, idx) => {
-                return dateComparisonHandler(val);
-              })
-            ) : (
-              <>LOADING</>
-            )}
+    <>
+      <div className="flex flex-col bg-zinc-800 m-2 sm:w-1/3 md:w-1/2">
+        <section className="">
+          {/* <div className="rounded-2xl"> */}
+          <img className=" rounded-xl" src={bvb} alt="BVB Poster" />
+          {/* </div> */}
+        </section>
+        <section className="mt-2 grow min-h-screen">
+          {/* <div className="bg-zinc-400 w-3/5">Search Bar</div> */}
+          <div className="bg-zinc-700 mt-1">
+            <div className="flex flex-row justify-evenly">
+              {matches ? (
+                matches.map((val) => {
+                  return dateComparisonHandler(val);
+                })
+              ) : (
+                <>LOADING</>
+              )}
+            </div>
           </div>
+          {selectedMatch ? (
+            <>
+              <Score
+                selectedMatch={selectedMatch}
+                hasVoted={hasVoted}
+                setHasVoted={setHasVoted}
+                voteData={voteData}
+              />
+              <Accordion type="data" title="Match Details">
+                {selectedMatch.events.filter((evt, idx) => {
+                  return evt.type != "Goal";
+                })}
+              </Accordion>
+              <div className="hidden">
+                <Accordion
+                  type="vote"
+                  selectedMatch={selectedMatch}
+                  hasVoted={hasVoted}
+                  setHasVoted={setHasVoted}
+                  voteData={voteData}
+                  title="Voting!"
+                >
+                  {selectedMatch.lineups.filter((lineup) => {
+                    return (
+                      lineup.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID
+                    );
+                  })}
+                </Accordion>
+              </div>
+            </>
+          ) : (
+            <>LOADING</>
+          )}
+        </section>
+      </div>
+      <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/4 sm:h-full">
+        <span>
+          {selectedMatch.league.name} - {selectedMatch.league.round}
+        </span>
+        <div>
+          {selectedMatch ? (
+            <VoteAccordion
+              type="vote"
+              selectedMatch={selectedMatch}
+              hasVoted={hasVoted}
+              setHasVoted={setHasVoted}
+              voteData={voteData}
+            >
+              {selectedMatch.lineups.filter((lineup) => {
+                return (
+                  lineup.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID
+                );
+              })}
+            </VoteAccordion>
+          ) : (
+            <>Ye bhi loading</>
+          )}
         </div>
-        {selectedMatch ? (
-          <Score
-            val={selectedMatch}
-            hasVoted={hasVoted}
-            setHasVoted={setHasVoted}
-            voteData={voteData}
-          />
-        ) : (
-          <>LOADING</>
-        )}
-      </section>
-    </div>
+      </div>
+    </>
   );
 }
 

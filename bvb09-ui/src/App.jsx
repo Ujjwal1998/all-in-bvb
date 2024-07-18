@@ -24,7 +24,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/stats" element={<Statisitics />} />
         </Routes>
-        <ThirdBar />
       </div>
       <Footer />
     </Router>

@@ -6,74 +6,12 @@ import { ResponsiveBar, Bar } from "@nivo/bar";
 // website examples showcase many properties,
 // you'll often use just a few of them.
 const MyResponsiveBar = ({ data }) => {
-  const data2 = [
-    {
-      round: "A - 2",
-      "M. Neuer": "1",
-      "J. Kimmich": "1",
-    },
-    {
-      round: "A - 2",
-      "M. Neuer": "1",
-      "J. Kimmich": "1",
-    },
-    {
-      round: "A - 3",
-      "A. Rüdiger": "1",
-      "M. Neuer": "3",
-    },
-    {
-      round: "A - 3",
-      "A. Rüdiger": "1",
-      "M. Neuer": "3",
-    },
-    {
-      round: "of 16",
-      "M. Neuer": "1",
-      "A. Rüdiger": "2",
-      "J. Kimmich": "2",
-      "N. Schlotterbeck": "3",
-    },
-    {
-      round: "of 16",
-      "M. Neuer": "1",
-      "A. Rüdiger": "2",
-      "J. Kimmich": "2",
-      "N. Schlotterbeck": "3",
-    },
-    {
-      round: "of 16",
-      "M. Neuer": "1",
-      "A. Rüdiger": "2",
-      "J. Kimmich": "2",
-      "N. Schlotterbeck": "3",
-    },
-    {
-      round: "of 16",
-      "M. Neuer": "1",
-      "A. Rüdiger": "2",
-      "J. Kimmich": "2",
-      "N. Schlotterbeck": "3",
-    },
-    {
-      round: "r-finals",
-      "J. Tah": "1",
-      "A. Rüdiger": "2",
-    },
-    {
-      round: "r-finals",
-      "J. Tah": "1",
-      "A. Rüdiger": "2",
-    },
-  ];
   let keys = [];
   for (const item of data) {
     keys = keys.concat(Object.keys(item));
-    console.log(Object.keys(item), keys);
   }
   let playerKeys = [...new Set(keys)];
   playerKeys.splice(0, 1);
-  console.log(playerKeys);
   return (
     <ResponsiveBar
       data={data}
@@ -81,7 +19,7 @@ const MyResponsiveBar = ({ data }) => {
       // width={350}
       keys={playerKeys}
       indexBy={"round"}
-      margin={{ top: 10, right: 70, bottom: 50, left: 30 }}
+      margin={{ top: 10, right: 120, bottom: 50, left: 30 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}

@@ -6,38 +6,6 @@ import { createElement } from "react";
 // website examples showcase many properties,
 // you'll often use just a few of them.
 const MyResponsivePie = ({ data /* see data tab */ }) => {
-  const data2 = [
-    {
-      id: "hack",
-      label: "hack",
-      value: 531,
-      color: "hsl(49, 70%, 50%)",
-    },
-    {
-      id: "stylus",
-      label: "stylus",
-      value: 557,
-      color: "hsl(46, 70%, 50%)",
-    },
-    {
-      id: "java",
-      label: "java",
-      value: 340,
-      color: "hsl(183, 70%, 50%)",
-    },
-    {
-      id: "scala",
-      label: "scala",
-      value: 566,
-      color: "hsl(134, 70%, 50%)",
-    },
-    {
-      id: "erlang",
-      label: "erlang",
-      value: 97,
-      color: "hsl(228, 70%, 50%)",
-    },
-  ];
   return (
     <div className="grow">
       {data && (

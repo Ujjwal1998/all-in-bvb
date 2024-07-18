@@ -1,5 +1,4 @@
 function Scorer({ goal, idx, classNames }) {
-  console.log(goal.assist);
   return (
     <div key={idx} className={`${classNames} pl-4  text-xs sm:text-sm`}>
       {goal.assist.id
