@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import bvb from "../assets/bvb4.jpg";
-import { getAllBVBMatchesData } from "../apis/openLigaData.js";
+import { getAllLeagueMatchesData } from "../apis/openLigaData.js";
 import { getOrCreateBVBMatchByDate } from "../apis/dbAPI.js";
 import { getVotesByFixtureID } from "../apis/dbAPI.js";
 import Score from "../components/score.jsx";
@@ -16,7 +16,7 @@ function Home() {
   // effect to render the date buttons
   useEffect(() => {
     async function fetchData() {
-      const matchData = await getAllBVBMatchesData();
+      const matchData = await getAllLeagueMatchesData();
       const selectedBVBMatch = await getOrCreateBVBMatchByDate(
         matchData[0].matchDateTimeUTC.split("T")[0]
       );
@@ -179,9 +179,9 @@ function Home() {
       </div>
       {selectedMatch ? (
         <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/3 sm:h-full">
-          <span>
+          <div className="text-xl underline mb-4">
             {selectedMatch.league.name} - {selectedMatch.league.round}
-          </span>
+          </div>
           <VoteAccordion
             type="vote"
             selectedMatch={selectedMatch}

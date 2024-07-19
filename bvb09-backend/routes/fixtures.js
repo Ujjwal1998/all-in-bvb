@@ -25,12 +25,11 @@ router.get("/:date", async (req, res) => {
       );
       // add players that played the match to the fixture
       const start11 = fixtureDetail.lineups.filter(
-        (lineup) => lineup.team.id == process.env.GERMANY_FOOTBALL_API_TEAMID
+        (lineup) => lineup.team.id == process.env.FOOTBALL_API_TEAMID
       )[0]["startXI"];
       const subDetails = fixtureDetail.events.filter(
         (evt) =>
-          evt.type == "subst" &&
-          evt.team.id == process.env.GERMANY_FOOTBALL_API_TEAMID
+          evt.type == "subst" && evt.team.id == process.env.FOOTBALL_API_TEAMID
       );
       const subs = subDetails.map((sub) => sub.assist);
       console.log(subs);
@@ -141,7 +140,7 @@ async function getFixtureByDate(fixtureDate) {
 // error will come here once limit is reached
 async function getAPIFootballFixtureID(fixtureDate) {
   const response = await axios.get(
-    `${process.env.FOOTBALL_API_BASE_URL}/fixtures?team=${process.env.GERMANY_FOOTBALL_API_TEAMID}&date=${fixtureDate}&season=${process.env.SEASON_YEAR}`,
+    `${process.env.FOOTBALL_API_BASE_URL}/fixtures?team=${process.env.FOOTBALL_API_TEAMID}&date=${fixtureDate}&season=${process.env.SEASON_YEAR}`,
     HEADERS
   );
   return response.data.response[0].fixture.id;
@@ -181,7 +180,7 @@ const addFixtureToPlayer = async (fixtureID, playerID) => {
 const addSubsToEleven = (fixture) => {
   console.log(fixture.lineups);
   const start11 = fixture.lineups.filter(
-    (lineup) => lineup.team.id == process.env.GERMANY_FOOTBALL_API_TEAMID
+    (lineup) => lineup.team.id == process.env.FOOTBALL_API_TEAMID
   );
   const subs = fixture.events.filter((evt) => evt.type == "subst");
   return start11.concat(subs);

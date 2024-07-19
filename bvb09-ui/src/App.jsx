@@ -6,6 +6,7 @@ import Header from "./components/header.jsx";
 import Footer from "./components/footer.jsx";
 import Drawer from "./components/drawer.jsx";
 import Home from "./pages/Home.jsx";
+import Schedule from "./pages/Schedule.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/stats" element={<Statisitics />} />
+          <Route path="/schedule" element={<Schedule />} />
         </Routes>
       </div>
       <Footer />

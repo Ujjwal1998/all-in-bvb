@@ -1,8 +1,8 @@
-import { getLeagueMatches, getBVBMatch } from "./openLigaAPI.js";
+import { getLeagueMatches } from "./openLigaAPI.js";
 
-const LEAGUES_TO_SEARCH = ["em"];
+const LEAGUES_TO_SEARCH = ["bl1"];
 
-export const getAllBVBMatchesData = async () => {
+export const getAllLeagueMatchesData = async () => {
   try {
     let allMatches = [];
     for (const league of LEAGUES_TO_SEARCH) {
@@ -22,6 +22,16 @@ export const getAllBVBMatchesData = async () => {
       return diffB - diffA;
     });
     return allMatches.slice(0, 4);
+  } catch (err) {
+    console.error("Error in getting BVBBundesligaMatchesData");
+    throw err;
+  }
+};
+
+export const getLeagueMatchesData = async (leagueID) => {
+  try {
+    const leagueMatches = await getLeagueMatches(leagueID);
+    return leagueMatches;
   } catch (err) {
     console.error("Error in getting BVBBundesligaMatchesData");
     throw err;

@@ -21,7 +21,7 @@ function Sidebar() {
           <PresentationChartLineIcon className="w-5" />
           <span className="mx-2">Statistics</span>
         </Link>
-        <Link to="/stats" className="flex mx-6 my-4">
+        <Link to="/schedule" className="flex mx-6 my-4">
           <CalendarDaysIcon className="w-5" />
           <span className="mx-2">Schedule</span>
         </Link>

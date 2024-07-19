@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAllBVBMatchesData } from "./openLigaData.js";
+import { getAllLeagueMatchesData } from "./openLigaData.js";
 import { getOrCreateBVBMatchByDate, getVotesByFixtureID } from "./dbAPI.js";
 
 export const getBundesligaVotesByMatchDay = async () => {

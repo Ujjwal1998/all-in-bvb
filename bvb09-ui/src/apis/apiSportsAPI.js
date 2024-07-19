@@ -10,14 +10,14 @@ const ApiSportsClient = axios.create({
   },
 });
 
-export const getBVBMatchDetail = async (apiSportsFixtureID) => {
+export const getMatchDetail = async (apiSportsFixtureID) => {
   try {
     const response = await ApiSportsClient.get(
       `/fixtures?id=${apiSportsFixtureID}`
     );
     return response.data;
   } catch (err) {
-    console.error("Error in getting getBVBMatchDetail");
+    console.error("Error in getting getMatchDetail");
     throw err;
   }
 };

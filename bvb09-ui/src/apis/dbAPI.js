@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getBVBMatchDetail, getBVBFixtureID } from "./apiSportsAPI.js";
+import { getMatchDetail, getBVBFixtureID } from "./apiSportsAPI.js";
 
 const getAPIFixtureID = async (teamID, fixtureDate) => {
   const fixtureData = await axios.get(
