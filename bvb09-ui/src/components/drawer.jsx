@@ -1,4 +1,8 @@
-import { HomeIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import {
+  CalendarDaysIcon,
+  HomeIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
 
 import { Link } from "react-router-dom";
 import { PresentationChartLineIcon } from "@heroicons/react/20/solid";
@@ -6,7 +10,7 @@ function Drawer({ isOpen, setIsOpen }) {
   return (
     isOpen && (
       <div
-        className={`text-white fixed transition ease-in duration-1000 transform h-full z-10 backdrop-blur overflow-visible bg-zinc-800 border-2   sm:hidden ${
+        className={`text-white fixed transition ease-in duration-1000 transform h-full z-10 backdrop-blur overflow-visible bg-zinc-800 border-2 sm:hidden ${
           isOpen ? "w-1/2" : "w-0"
         }`}
       >
@@ -22,7 +26,7 @@ function Drawer({ isOpen, setIsOpen }) {
             >
               <XMarkIcon className="w-6"></XMarkIcon>
             </button>
-            <aside className="mx-4 space-y-8 border-b-1 border-white">
+            <aside className="mx-4 space-y-8 border-white">
               <Link
                 to="/"
                 className="flex gap-4"
@@ -33,11 +37,19 @@ function Drawer({ isOpen, setIsOpen }) {
               </Link>
               <Link
                 to="/stats"
-                className="flex gap-4 border-b-2"
+                className="flex gap-4"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <PresentationChartLineIcon className="w-6" />
                 {isOpen && <span className="">Statistics</span>}
+              </Link>
+              <Link
+                to="/schedule"
+                className="flex gap-4 "
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <CalendarDaysIcon className="w-6" />
+                {isOpen && <span className="">Schedule</span>}
               </Link>
             </aside>
           </div>

@@ -9,39 +9,42 @@ import Accordion from "../components/accordion.jsx";
 import VoteAccordion from "../components/voteaccordion.jsx";
 
 function Home() {
-  const [matches, setMatches] = useState();
-  const [selectedMatch, setSelectedMatch] = useState();
+  const [matches, setMatches] = useState({});
+  const [selectedMatch, setSelectedMatch] = useState([]);
   const [hasVoted, setHasVoted] = useState(false);
   const [voteData, setVoteData] = useState("");
   // effect to render the date buttons
   useEffect(() => {
     async function fetchData() {
       const matchData = await getAllLeagueMatchesData();
-      const selectedBVBMatch = await getOrCreateBVBMatchByDate(
-        matchData[0].matchDateTimeUTC.split("T")[0]
-      );
-      const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
-      let voteDataArr = [];
-      if (resp?.data) {
-        for (const [key, value] of Object.entries(resp.data)) {
-          if (value > 0) {
-            voteDataArr.push({ id: key, label: key, value: value });
+      console.log(matchData);
+      if (matchData.length > 0) {
+        const selectedBVBMatch = await getOrCreateBVBMatchByDate(
+          matchData[0].matchDateTimeUTC.split("T")[0]
+        );
+        const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
+        let voteDataArr = [];
+        if (resp?.data) {
+          for (const [key, value] of Object.entries(resp.data)) {
+            if (value > 0) {
+              voteDataArr.push({ id: key, label: key, value: value });
+            }
           }
         }
-      }
-      if (
-        selectedBVBMatch &&
-        selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
-      ) {
-        setHasVoted(true);
-      }
-      setVoteData(voteDataArr);
-      setMatches(matchData);
-      setSelectedMatch(selectedBVBMatch);
-      const voteData = JSON.parse(localStorage.getItem("hasVoted"));
-      if (voteData) {
-        if (Object.hasOwn(voteData, selectedBVBMatch.fixture.id)) {
-          setHasVoted(voteData[selectedBVBMatch.fixture.id]);
+        if (
+          selectedBVBMatch &&
+          selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
+        ) {
+          setHasVoted(true);
+        }
+        setVoteData(voteDataArr);
+        setMatches(matchData);
+        setSelectedMatch(selectedBVBMatch);
+        const voteData = JSON.parse(localStorage.getItem("hasVoted"));
+        if (voteData) {
+          if (Object.hasOwn(voteData, selectedBVBMatch.fixture.id)) {
+            setHasVoted(voteData[selectedBVBMatch.fixture.id]);
+          }
         }
       }
     }
@@ -133,7 +136,7 @@ function Home() {
           {/* <div className="bg-zinc-400 w-3/5">Search Bar</div> */}
           <div className="bg-zinc-700 mt-1">
             <div className="flex flex-row justify-evenly">
-              {matches ? (
+              {matches.length > 0 ? (
                 matches.map((val) => {
                   return dateComparisonHandler(val);
                 })
@@ -142,7 +145,7 @@ function Home() {
               )}
             </div>
           </div>
-          {selectedMatch ? (
+          {Object.keys(selectedMatch).length > 0 ? (
             <>
               <Score
                 selectedMatch={selectedMatch}
@@ -177,7 +180,7 @@ function Home() {
           )}
         </section>
       </div>
-      {selectedMatch ? (
+      {Object.keys(selectedMatch).length > 0 ? (
         <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/3 sm:h-full">
           <div className="text-xl underline mb-4">
             {selectedMatch.league.name} - {selectedMatch.league.round}
