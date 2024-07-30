@@ -1,29 +1,32 @@
 import { getLeagueMatches } from "./openLigaAPI.js";
 
-const LEAGUES_TO_SEARCH = ["bl1"];
-
 export const getAllLeagueMatchesData = async () => {
   try {
     let allMatches = [];
-    for (const league of LEAGUES_TO_SEARCH) {
+    for (const league of import.meta.env.VITE_LEAGUES_TO_SEARCH.split(" ")) {
+      console.log(league);
       const leagueMatches = await getLeagueMatches(league);
-      const finishedLeagueMatches = leagueMatches.filter(
-        (match) => match.matchIsFinished === true
-      );
-      allMatches.push(...finishedLeagueMatches);
+      if (leagueMatches.length > 0) {
+        const finishedLeagueMatches = leagueMatches.filter(
+          (match) => match.matchIsFinished === true
+        );
+        allMatches.push(...finishedLeagueMatches);
+      }
     }
-    console.log(allMatches, "LM");
-
-    allMatches.sort((a, b) => {
-      const dateA = new Date(a.matchDateTime);
-      const dateB = new Date(b.matchDateTime);
-      const diffA = dateA - new Date().getTime();
-      const diffB = dateB - new Date().getTime();
-      return diffB - diffA;
-    });
-    return allMatches.slice(0, 4);
+    if (allMatches.length > 0) {
+      allMatches.sort((a, b) => {
+        const dateA = new Date(a.matchDateTime);
+        const dateB = new Date(b.matchDateTime);
+        const diffA = dateA - new Date().getTime();
+        const diffB = dateB - new Date().getTime();
+        return diffB - diffA;
+      });
+      return allMatches.slice(0, 4);
+    } else {
+      return [];
+    }
   } catch (err) {
-    console.error("Error in getting BVBBundesligaMatchesData");
+    console.error("Error in getting getAllLeagueMatchesData" + err);
     throw err;
   }
 };

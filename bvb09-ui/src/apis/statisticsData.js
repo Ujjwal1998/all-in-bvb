@@ -1,14 +1,14 @@
 import axios from "axios";
-import { getAllLeagueMatchesData } from "./openLigaData.js";
-import { getOrCreateBVBMatchByDate, getVotesByFixtureID } from "./dbAPI.js";
 
-export const getBundesligaVotesByMatchDay = async () => {
+export const getLeagueVotesByMatchDay = async (leagueID) => {
   try {
-    const bundesligaVotes = await axios.get(
-      `${import.meta.env.VITE_NODE_HOST}/api/players/league/4/votes`
+    console.log(leagueID);
+    const leagueVotes = await axios.get(
+      `${import.meta.env.VITE_NODE_HOST}/api/players/league/${leagueID}/votes`
     );
+    console.log(leagueVotes);
     let data = [];
-    for (const [key, value] of Object.entries(bundesligaVotes.data)) {
+    for (const [key, value] of Object.entries(leagueVotes.data)) {
       data.push({ id: key, data: value });
     }
     return data;

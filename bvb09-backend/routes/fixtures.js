@@ -13,51 +13,6 @@ const HEADERS = {
   },
 };
 
-// get or create by fixture date
-router.get("/:date", async (req, res) => {
-  try {
-    let fixture = await getFixtureByDate(req.params.date);
-    if (!fixture) {
-      // create fixture
-      const apiSportsFixtureID = await getAPIFootballFixtureID(req.params.date);
-      const fixtureDetail = await getAPIFootballFixtureDetail(
-        apiSportsFixtureID
-      );
-      // add players that played the match to the fixture
-      const start11 = fixtureDetail.lineups.filter(
-        (lineup) => lineup.team.id == process.env.FOOTBALL_API_TEAMID
-      )[0]["startXI"];
-      const subDetails = fixtureDetail.events.filter(
-        (evt) =>
-          evt.type == "subst" && evt.team.id == process.env.FOOTBALL_API_TEAMID
-      );
-      const subs = subDetails.map((sub) => sub.assist);
-      console.log(subs);
-      // const allPlayers = start11.concat(subs);
-      for (const { player } of start11) {
-        console.log(player.name);
-        await addFixtureToPlayer(fixtureDetail.fixture.id, player.id);
-      }
-      for (const sub of subs) {
-        await addFixtureToPlayer(fixtureDetail.fixture.id, sub.id);
-      }
-      let newFixture = await Fixture.create(fixtureDetail);
-      newFixture = newFixture.toJSON();
-      return res.status(201).json(newFixture);
-      // allPlayers.forEach(
-      //   async ({ player }) =>
-      //     await addFixtureToPlayer(fixtureDetail.fixture.id, player.id)
-      // );
-    }
-    return res.status(200).json(fixture);
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ error: "An error occurred while retrieving the fixture." });
-  }
-});
-
 // get fixtures inside a leagueID
 router.get("/leagues/:id", async (req, res) => {
   try {
@@ -89,6 +44,88 @@ router.get("/leagues/:id", async (req, res) => {
   }
 });
 
+// get leagues in which team is playing
+router.get("/leagues", async (req, res) => {
+  try {
+    console.log(process.env.FOOTBALL_API_TEAMID);
+    const agg = [
+      {
+        $match: {
+          $or: [
+            {
+              "teams.home.id": 25,
+            },
+            {
+              "teams.away.id": 25,
+            },
+          ],
+        },
+      },
+      {
+        $group: {
+          _id: {
+            league_id: "$league.id",
+            league_name: "$league.name",
+          },
+        },
+      },
+    ];
+    console.log(agg);
+    let leagues = await Fixture.aggregate(agg);
+    return res.status(200).json(leagues);
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving all the leagues" });
+  }
+});
+
+// get or create by fixture date
+router.get("/:date", async (req, res) => {
+  try {
+    let fixture = await getFixtureByDate(req.params.date);
+    if (!fixture) {
+      // create fixture
+      const apiSportsFixtureID = await getAPIFootballFixtureID(req.params.date);
+      const fixtureDetail = await getAPIFootballFixtureDetail(
+        apiSportsFixtureID
+      );
+      // add players that played the match to the fixture
+      const start11 = fixtureDetail.lineups.filter(
+        (lineup) => lineup.team.id == process.env.FOOTBALL_API_TEAMID
+      )[0]["startXI"];
+      const subDetails = fixtureDetail.events.filter(
+        (evt) =>
+          evt.type == "subst" && evt.team.id == process.env.FOOTBALL_API_TEAMID
+      );
+      const subs = subDetails.map((sub) => sub.assist);
+      console.log(subs);
+      // const allPlayers = start11.concat(subs);
+      for (const { player } of start11) {
+        console.log(player.name);
+        await addFixtureToPlayer(fixtureDetail.fixture.id, player.id);
+      }
+      for (const sub of subs) {
+        await addFixtureToPlayer(fixtureDetail.fixture.id, sub.id);
+      }
+      let newFixture = await Fixture.create(fixtureDetail);
+      newFixture = newFixture.toJSON();
+      return res.status(200).json(newFixture);
+      // allPlayers.forEach(
+      //   async ({ player }) =>
+      //     await addFixtureToPlayer(fixtureDetail.fixture.id, player.id)
+      // );
+    }
+    return res.status(200).json(fixture);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving the fixture." });
+  }
+});
+
 // create new fixture
 router.post("/", async (req, res) => {
   try {
@@ -112,11 +149,13 @@ router.post("/", async (req, res) => {
 
 router.get("/:id/votes", async (req, res) => {
   try {
+    console.log("aaya");
     const fixtureID = parseInt(req.params.id);
     const response = await Player.find({
       "fixtures.id": fixtureID,
     });
     const data = {};
+    console.log(response);
     response.forEach(({ player: { id, name }, fixtures }) => {
       const selectedFixture = fixtures.filter(
         (fixture) => fixture.id == fixtureID
@@ -143,6 +182,7 @@ async function getAPIFootballFixtureID(fixtureDate) {
     `${process.env.FOOTBALL_API_BASE_URL}/fixtures?team=${process.env.FOOTBALL_API_TEAMID}&date=${fixtureDate}&season=${process.env.SEASON_YEAR}`,
     HEADERS
   );
+  console.log(response);
   return response.data.response[0].fixture.id;
 }
 
@@ -173,7 +213,6 @@ const addFixtureToPlayer = async (fixtureID, playerID) => {
     },
     { returnDocument: "after" }
   );
-  console.log("pushed", playerID, fixtureID);
 };
 
 // add subs to start eleven

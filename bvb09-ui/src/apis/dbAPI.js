@@ -41,3 +41,14 @@ export const getVotesByFixtureID = async (fixtureID) => {
     console.log("error in getVotesByFixtureID", error);
   }
 };
+
+export const getLeagues = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_NODE_HOST}/api/fixtures/leagues`
+    );
+    return response;
+  } catch (error) {
+    console.log("error in getLeagues", error);
+  }
+};

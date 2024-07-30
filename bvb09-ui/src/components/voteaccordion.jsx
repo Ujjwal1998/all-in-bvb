@@ -39,15 +39,19 @@ function VoteAccordion({
     if (voteRequest) {
       let voteData = JSON.parse(localStorage.getItem("hasVoted"));
       console.log(voteData);
+      // ? whats the point of this, to check if has already voted ? but i am pushing data here
       if (voteData) {
-        if (!Object.hasOwn(voteData, fixture.id)) {
-          voteData[fixture.id] = true;
-          localStorage.setItem("hasVoted", JSON.stringify(voteData));
-        }
+        let obj = {};
+        obj[fixture.id] = true;
+        voteData.push(obj);
+        localStorage.setItem("hasVoted", JSON.stringify(voteData));
+      } else {
+        voteData = [];
+        let obj = {};
+        obj[fixture.id] = true;
+        voteData.push(obj);
+        localStorage.setItem("hasVoted", JSON.stringify(voteData));
       }
-      voteData = {};
-      voteData[fixture.id] = true;
-      localStorage.setItem("hasVoted", JSON.stringify(voteData));
       setHasVoted(true);
       return voteRequest;
     }
@@ -56,7 +60,7 @@ function VoteAccordion({
   return (
     <div className="text-white">
       {hasVoted ? (
-        <DisplayVotes voteData={voteData} />
+        <DisplayVotes fixtureID={selectedMatch.fixture.id} />
       ) : (
         <VotePlayer
           startingEleven={startingEleven}

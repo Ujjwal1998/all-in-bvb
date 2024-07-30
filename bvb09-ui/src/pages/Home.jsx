@@ -7,6 +7,21 @@ import Score from "../components/score.jsx";
 import Button from "../components/Button.jsx";
 import Accordion from "../components/accordion.jsx";
 import VoteAccordion from "../components/voteaccordion.jsx";
+import DisplayVotes from "../components/displayvotes.jsx";
+
+function checkLocalStorage(fixtureID) {
+  const voteData = JSON.parse(localStorage.getItem("hasVoted"));
+  console.log(voteData);
+  if (voteData) {
+    for (const data of voteData) {
+      console.log(data);
+      if (Object.hasOwn(data, fixtureID)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
 
 function Home() {
   const [matches, setMatches] = useState({});
@@ -17,11 +32,12 @@ function Home() {
   useEffect(() => {
     async function fetchData() {
       const matchData = await getAllLeagueMatchesData();
-      console.log(matchData);
+      console.log(matchData, "handle this");
       if (matchData.length > 0) {
         const selectedBVBMatch = await getOrCreateBVBMatchByDate(
           matchData[0].matchDateTimeUTC.split("T")[0]
         );
+        console.log(selectedBVBMatch, "SELECTEDBVBMATCHHHHH");
         const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
         let voteDataArr = [];
         if (resp?.data) {
@@ -31,20 +47,17 @@ function Home() {
             }
           }
         }
-        if (
-          selectedBVBMatch &&
-          selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
-        ) {
-          setHasVoted(true);
-        }
+        // if (
+        //   selectedBVBMatch &&
+        //   selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
+        // ) {
+        //   setHasVoted(true);
+        // }
         setVoteData(voteDataArr);
         setMatches(matchData);
         setSelectedMatch(selectedBVBMatch);
-        const voteData = JSON.parse(localStorage.getItem("hasVoted"));
-        if (voteData) {
-          if (Object.hasOwn(voteData, selectedBVBMatch.fixture.id)) {
-            setHasVoted(voteData[selectedBVBMatch.fixture.id]);
-          }
+        if (checkLocalStorage(selectedBVBMatch.fixture.id)) {
+          setHasVoted(true);
         }
       }
     }
@@ -70,7 +83,7 @@ function Home() {
   function dateButtonRenderer(today, matchDay, matchDate, val) {
     if (today == matchDay) {
       return <button>Today</button>;
-    } else if (selectedMatch.matchID == val.matchID) {
+    } else if (selectedMatch && selectedMatch.matchID == val.matchID) {
       return (
         <Button
           onClick={() => matchDateButtonHandler(val)}
@@ -107,16 +120,18 @@ function Home() {
     setSelectedMatch(selectedBVBMatch);
     if (
       selectedBVBMatch &&
-      selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
+      checkLocalStorage(selectedBVBMatch.fixture.id)
+      // && selectedBVBMatch.fixture.periods.second + 172800 <= Date.now()
     ) {
-      const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
-      let voteDataArr = [];
-      for (const [key, value] of Object.entries(resp.data)) {
-        if (value > 0) {
-          voteDataArr.push({ id: key, label: key, value: value });
-        }
-      }
-      setVoteData(voteDataArr);
+      // const resp = await getVotesByFixtureID(selectedBVBMatch.fixture.id);
+      // console.log(resp);
+      // let voteDataArr = [];
+      // for (const [key, value] of Object.entries(resp.data)) {
+      //   if (value > 0) {
+      //     voteDataArr.push({ id: key, label: key, value: value });
+      //   }
+      // }
+      // setVoteData(voteDataArr);
       setHasVoted(true);
     } else {
       setHasVoted(false);
@@ -158,14 +173,14 @@ function Home() {
                   return evt.type != "Goal";
                 })}
               </Accordion>
-              <div className="hidden">
+              <div className="sm:hidden">
                 <Accordion
                   type="vote"
                   selectedMatch={selectedMatch}
                   hasVoted={hasVoted}
                   setHasVoted={setHasVoted}
                   voteData={voteData}
-                  title="Voting!"
+                  title="Vote your MOTM"
                 >
                   {selectedMatch.lineups.filter((lineup) => {
                     return (
@@ -182,7 +197,7 @@ function Home() {
       </div>
       {Object.keys(selectedMatch).length > 0 ? (
         <div className="hidden sm:flex sm:flex-col sm:bg-zinc-800 sm:mt-1  sm:m-2 md:w-1/3 sm:h-full">
-          <div className="text-xl underline mb-4">
+          <div className="text-xl underline mb-4 bg-black p-2">
             {selectedMatch.league.name} - {selectedMatch.league.round}
           </div>
           <VoteAccordion
