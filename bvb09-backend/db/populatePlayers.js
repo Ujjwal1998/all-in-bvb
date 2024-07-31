@@ -12,7 +12,7 @@ const HEADERS = {
 const populateSquad = async () => {
   try {
     const response = await axios.get(
-      `https://v3.football.api-sports.io/players/squads?team=25`,
+      `https://v3.football.api-sports.io/players/squads?team=165`,
       HEADERS
     );
     console.log(response.data.response);

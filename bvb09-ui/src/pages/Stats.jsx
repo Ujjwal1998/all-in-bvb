@@ -24,6 +24,7 @@ function Statisitics() {
     async function fetchData() {
       let data = await getLeagueStats(import.meta.env.VITE_LEAGUEID_DB);
       let leagueData = await getLeagues();
+      console.log("ld", leagueData);
       let leaguesToSet = leagueData.data.map((val, idx) => {
         console.log(val["_id"], idx);
         return val["_id"];
@@ -39,6 +40,9 @@ function Statisitics() {
     setLineChartData(data[0]);
     setBarGraphData(data[1]);
   }
+  console.log(leagues, "leagues");
+  console.log(lineChartData, "linechart");
+  console.log(barGraphData, "bargraph");
   return (
     <div className="flex flex-col bg-zinc-800 h-screen w-full mt-12 mx-4 text-white w-2/3 sm:mt-0">
       <div className="flex content-center justify-center mt-2">
