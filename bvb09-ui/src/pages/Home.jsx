@@ -177,7 +177,8 @@ function Home() {
                 })}
               </Accordion>
               <div className="sm:hidden">
-                <Accordion
+                <DisplayVotes fixtureID={selectedMatch.fixture.id} />
+                {/* <Accordion
                   type="vote"
                   selectedMatch={selectedMatch}
                   hasVoted={hasVoted}
@@ -190,7 +191,7 @@ function Home() {
                       lineup.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID
                     );
                   })}
-                </Accordion>
+                </Accordion> */}
               </div>
             </>
           ) : (
