@@ -203,7 +203,7 @@ function Home() {
           <div className="text-xl underline mb-4 bg-black p-2">
             {selectedMatch.league.name} - {selectedMatch.league.round}
           </div>
-          <VoteAccordion
+          {/* <VoteAccordion
             type="vote"
             selectedMatch={selectedMatch}
             hasVoted={hasVoted}
@@ -213,7 +213,8 @@ function Home() {
             {selectedMatch.lineups.filter((lineup) => {
               return lineup.team.id == import.meta.env.VITE_APIFOOTBALL_TEAM_ID;
             })}
-          </VoteAccordion>
+          </VoteAccordion> */}
+          <DisplayVotes fixtureID={selectedMatch.fixture.id} />
         </div>
       ) : (
         <>Ye bhi loading</>
