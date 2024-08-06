@@ -8,6 +8,7 @@ import Button from "../components/Button.jsx";
 import Accordion from "../components/accordion.jsx";
 import VoteAccordion from "../components/voteaccordion.jsx";
 import DisplayVotes from "../components/displayvotes.jsx";
+import { MATCHES } from "../../constants.js";
 
 function checkLocalStorage(fixtureID) {
   const voteData = JSON.parse(localStorage.getItem("hasVoted"));
@@ -24,9 +25,9 @@ function checkLocalStorage(fixtureID) {
 }
 
 function Home() {
-  const [matches, setMatches] = useState({});
+  // const [MATCHES, setMatches] = useState({});
   const [selectedMatch, setSelectedMatch] = useState([]);
-  const [hasVoted, setHasVoted] = useState(false);
+  const [hasVoted, setHasVoted] = useState(true);
   const [voteData, setVoteData] = useState("");
   // effect to render the date buttons
   useEffect(() => {
@@ -54,14 +55,15 @@ function Home() {
         //   setHasVoted(true);
         // }
         setVoteData(voteDataArr);
-        setMatches(matchData);
+        // setMatches(matchData);
         setSelectedMatch(selectedBVBMatch);
         if (checkLocalStorage(selectedBVBMatch.fixture.id)) {
           setHasVoted(true);
         }
       }
     }
-    fetchData();
+    // fetchData();
+    setSelectedMatch(MATCHES[0]);
   }, []);
   function dateComparisonHandler(val) {
     const nowDate = new Date();
@@ -113,9 +115,9 @@ function Home() {
     }
   }
   async function matchDateButtonHandler(val) {
-    const selectedBVBMatch = await getOrCreateBVBMatchByDate(
-      val.matchDateTimeUTC.split("T")[0]
-    );
+    const selectedBVBMatch = MATCHES.filter(
+      (match) => match.matchDateTime === val.matchDateTime
+    )[0];
     console.log(selectedBVBMatch, "changed inr react");
     setSelectedMatch(selectedBVBMatch);
     if (
@@ -138,7 +140,8 @@ function Home() {
     }
   }
   // console.log(selectedMatch.fixture.periods.second + 172800 <= Date.now());
-  console.log(selectedMatch, "matechesss");
+  console.log(MATCHES, "matechesss");
+  console.log(selectedMatch, "selectedMatch");
   return (
     <>
       <div className="flex flex-col bg-zinc-800 m-2  md:w-1/2">
@@ -151,8 +154,8 @@ function Home() {
           {/* <div className="bg-zinc-400 w-3/5">Search Bar</div> */}
           <div className="bg-zinc-700 mt-1">
             <div className="flex flex-row justify-evenly">
-              {matches.length > 0 ? (
-                matches.map((val) => {
+              {MATCHES.length > 0 ? (
+                MATCHES.map((val) => {
                   return dateComparisonHandler(val);
                 })
               ) : (
