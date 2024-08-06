@@ -9,6 +9,7 @@ import {
   getLeagueVotesBarData,
 } from "../apis/statisticsData.js";
 import { getLeagues } from "../apis/dbAPI.js";
+import { BAR_CHART_DATA, LINE_CHART_DATA } from "../../constants.js";
 
 async function getLeagueStats(leagueID) {
   const lineChartData = await getLeagueVotesByMatchDay(leagueID);
@@ -59,15 +60,15 @@ function Statisitics() {
         className="content-center self-center h-1/3 w-full mt-2"
         // style={{ height: "300px", width: "350px" }}
       >
-        {barGraphData && (
-          <MyResponsiveBar data={barGraphData}></MyResponsiveBar>
+        {BAR_CHART_DATA && (
+          <MyResponsiveBar data={BAR_CHART_DATA}></MyResponsiveBar>
         )}
       </div>
       <div
         className="content-center self-center h-1/2 w-full mt-2"
         // style={{ height: "300px", width: "350px" }}
       >
-        {lineChartData && <LineChart data={lineChartData}></LineChart>}
+        {LINE_CHART_DATA && <LineChart data={LINE_CHART_DATA}></LineChart>}
       </div>
     </div>
   );

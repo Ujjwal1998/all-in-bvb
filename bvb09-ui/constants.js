@@ -3660,7 +3660,7 @@ export const MATCHES = [
       logo: "https://media.api-sports.io/football/leagues/78.png",
       flag: "https://media.api-sports.io/flags/de.svg",
       season: 2023,
-      round: "Regular Season - 34",
+      round: "MD- 34",
     },
   },
   {
@@ -7291,7 +7291,7 @@ export const MATCHES = [
       logo: "https://media.api-sports.io/football/leagues/78.png",
       flag: "https://media.api-sports.io/flags/de.svg",
       season: 2023,
-      round: "Regular Season - 33",
+      round: "MD- 33",
     },
     location: null,
     numberOfViewers: null,
@@ -10872,7 +10872,7 @@ export const MATCHES = [
       logo: "https://media.api-sports.io/football/leagues/78.png",
       flag: "https://media.api-sports.io/flags/de.svg",
       season: 2023,
-      round: "Regular Season - 32",
+      round: "MD- 32",
     },
     location: null,
     numberOfViewers: null,
@@ -14528,7 +14528,7 @@ export const MATCHES = [
       logo: "https://media.api-sports.io/football/leagues/78.png",
       flag: "https://media.api-sports.io/flags/de.svg",
       season: 2023,
-      round: "Regular Season - 31",
+      round: "MD- 31",
     },
     group: {
       groupName: "31. Spieltag",
@@ -14680,4 +14680,119 @@ export const PIE_CHART_DATA = [
       value: 3,
     },
   ],
+];
+
+export const LINE_CHART_DATA = [
+  {
+    id: "M. Sabitzer",
+    data: [
+      {
+        x: "MD-32",
+        y: 2,
+      },
+      {
+        x: "MD-31",
+        y: 1,
+      },
+      {
+        x: "MD-34",
+        y: 2,
+      },
+    ],
+  },
+  {
+    id: "G. Kobel",
+    data: [
+      {
+        x: "MD-32",
+        y: 1,
+      },
+      {
+        x: "MD-31",
+        y: 4,
+      },
+      {
+        x: "MD-34",
+        y: 2,
+      },
+    ],
+  },
+  {
+    id: "D. Malen",
+    data: [
+      {
+        x: "MD-32",
+        y: 4,
+      },
+      {
+        x: "MD-31",
+        y: 4,
+      },
+      {
+        x: "MD-34",
+        y: 2,
+      },
+    ],
+  },
+  {
+    id: "J. Brandt",
+    data: [
+      {
+        x: "MD-32",
+        y: 3,
+      },
+      {
+        x: "MD-31",
+        y: 3,
+      },
+      {
+        x: "MD-34",
+        y: 2,
+      },
+    ],
+  },
+  {
+    id: "N. Füllkrug",
+    data: [
+      {
+        x: "MD-32",
+        y: 4,
+      },
+      {
+        x: "MD-31",
+        y: 4,
+      },
+      {
+        x: "MD-34",
+        y: 3,
+      },
+    ],
+  },
+];
+
+export const BAR_CHART_DATA = [
+  {
+    round: "MD 31",
+    "J. Brandt": "1",
+    "N. Füllkrug": "1",
+    "J. Ryerson": "4",
+  },
+  {
+    round: "MD 32",
+    "G. Kobel": "1",
+    "D. Malen": "1",
+    "J. Ryerson": "3",
+  },
+  {
+    round: "MD 33",
+    "D. Malen": "1",
+    "M. Reus": "4",
+    "I. Maatsen": "5",
+    "J. Ryerson": "4",
+  },
+  {
+    round: "MD 34",
+    "M. Sabitzer": "3",
+    "M. Reus": "1",
+  },
 ];
